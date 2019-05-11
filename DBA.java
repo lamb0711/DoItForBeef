@@ -37,53 +37,106 @@ public class DBA {
             return false;
         }
         return true;
-        /*
-        // 3.해제
+
+    }
+
+    public void disconnect() {
         try {
             if(con != null)
                 con.close();
-        } catch (SQLException e) {}
 
-         */
+        } catch (SQLException e) {}
     }
 
+    public boolean isExist(int id, String name, String email) {
+        String check_query = "select * from user where `user_id`=? OR `user_name`=? OR `user_email`=?;";
+
+        PreparedStatement ps = null;
+        ResultSet rs;
+        boolean checkUser = false;
+
+        try {
+            ps = con.prepareStatement(check_query);
+            ps.setInt(1, id);
+            ps.setString(2, name);
+            ps.setString(3, email);
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                checkUser = true;
+            }
+        } catch (SQLException e){
+
+        }
+
+        return checkUser;
+    }
+
+
     public boolean add(User data) {
-            String query = "insert into user value(?,?,?);";
+            String query = "insert into user value(?,?,?,?,?);";
+
             PreparedStatement pstmt = null;
 
-            try {
+        try {
                 pstmt = con.prepareStatement(query);
                 pstmt.setInt(1, data.getID());
                 pstmt.setString(2, data.getName());
                 pstmt.setInt(3, data.getPW());
+                pstmt.setInt(4, data.getPhone());
+                pstmt.setString(5, data.getEmail());
                 pstmt.executeUpdate();
+
             } catch(SQLException e) {
                 e.printStackTrace();
                 return false;
             }
 
-            System.out.println("유저 저장완료...");
             return true;
     }
 
-    public User search_One(int id) {
-            String query = "Select * from user where user_id = ?";
+    public boolean change_pw(int id, int pw) {
+            String query = "update user set `user_pw`=? where `user_id`=?;";
             PreparedStatement pstmt = null;
             User data = new User();
+
             try {
                 pstmt = con.prepareStatement(query);
-                pstmt.setInt(1, id);
-                ResultSet rs = pstmt.executeQuery();
+                pstmt.setInt(1, pw);
+                pstmt.setInt(2, id);
+                int rs = pstmt.executeUpdate();
 
-                while(rs.next()) {
-                    data.setID(rs.getInt("user_id"));
-                    data.setName(rs.getString("user_name"));
-                    data.setPW(rs.getInt("user_pw"));
+                if (rs != 0) {
+                    return true;
                 }
             } catch( SQLException e){
                 e.printStackTrace();
             }
 
-            return data;
+            return false;
+    }
+
+    public boolean check_user(int id, int phone) {
+        String check_query = "select * from user where `user_id`=? AND `user_phone`=?;";
+
+        PreparedStatement ps = null;
+        ResultSet rs;
+        boolean confirm = false;
+
+        try {
+            ps = con.prepareStatement(check_query);
+            ps.setInt(1, id);
+            ps.setInt(2, phone);
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                confirm = true;
+            }
+        } catch (SQLException e){
+
+        }
+
+        return confirm;
+
     }
 }
