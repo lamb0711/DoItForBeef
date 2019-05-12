@@ -1,15 +1,16 @@
+package edu.handong.database.team6;
 import java.sql.*;
 
 public class DBA {
 
         static Connection con = null;
-        static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+        static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
         static final String timeZone = "?serverTimezone=UTC&useSSL=false";
 
         //static String server = "localhost"; // MySQL 서버 주소
         //static String database = "test"; // MySQL DATABASE 이름
         static String user_name = "root"; //  MySQL 서버 아이디
-        static String password = "jca+please"; // MySQL 서버 비밀번호
+        static String password = "useruser"; // MySQL 서버 비밀번호
 
         static String url = "jdbc:mysql://localhost/test";
 
@@ -60,6 +61,29 @@ public class DBA {
             ps.setInt(1, id);
             ps.setString(2, name);
             ps.setString(3, email);
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                checkUser = true;
+            }
+        } catch (SQLException e){
+
+        }
+
+        return checkUser;
+    }
+
+    public boolean logIn(int id, int pw) {
+        String check_query = "select * from user where `user_id`=? OR `user_name`=?;";
+
+        PreparedStatement ps = null;
+        ResultSet rs;
+        boolean checkUser = false;
+
+        try {
+            ps = con.prepareStatement(check_query);
+            ps.setInt(1, id);
+            ps.setInt(2, pw);
             rs = ps.executeQuery();
 
             if (rs.next()) {
