@@ -3,13 +3,13 @@ import java.sql.*;
 public class DBA {
 
         static Connection con = null;
-        static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+        static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
         static final String timeZone = "?serverTimezone=UTC&useSSL=false";
 
         //static String server = "localhost"; // MySQL 서버 주소
         //static String database = "test"; // MySQL DATABASE 이름
         static String user_name = "root"; //  MySQL 서버 아이디
-        static String password = "jca+please"; // MySQL 서버 비밀번호
+        static String password = "useruser"; // MySQL 서버 비밀번호
 
         static String url = "jdbc:mysql://localhost/test";
 

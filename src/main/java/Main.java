@@ -47,13 +47,13 @@ public class Main {
         System.out.println(" 3. Change the password");
         System.out.println(" 4. Exit the program");
         System.out.println(" ------------------------");
-        System.out.print(" Select the Menu : ");
+        System.out.print(" Select the Menu : "); //print function doesn't work in my PC, please check.
     }
 
     public static void user_add(DBA db, BufferedReader rs) throws IOException {
         User user = new User();
         try {
-            System.out.print(" Please put ID (integer), User name, Password, Phone number, and Email IN ORDER  :");
+            System.out.print(" Please put ID (integer), User name, Password, Phone number, and Email IN ORDER  :"); //print function doesn't work in my PC, please check.
             StringTokenizer token = new StringTokenizer(rs.readLine(), " ");
             user.setID(Integer.parseInt(token.nextToken()));
             user.setName(token.nextToken());
@@ -61,7 +61,7 @@ public class Main {
             user.setPhone(Integer.parseInt(token.nextToken()));
             user.setEmail(token.nextToken());
 
-            if (!db.isExist(user.getID(), user.getName(), user.getEmail())) {
+            if (db.isExist(user.getID(), user.getName(), user.getEmail())) { //there couldn't be !db.isExist when we add
                 System.out.println(" \nThere are already registered user with either same id, same name, or email.\n ");
             } else {
                 if (db.add(user))
