@@ -2,7 +2,7 @@ package edu.handong.database.team6;
 import java.sql.*;
 
 public class DBA {
-
+        static int loginID = -9999;
         static Connection con = null;
         static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
         static final String timeZone = "?serverTimezone=UTC&useSSL=false";
@@ -88,6 +88,7 @@ public class DBA {
 
             if (rs.next()) {
                 checkUser = true;
+                loginID = id;
             }
         } catch (SQLException e){
 
@@ -163,4 +164,29 @@ public class DBA {
         return confirm;
 
     }
+
+
+//Mail
+    public boolean write(int id, int recv, String title, String contents) {
+
+            String check_query = "insert into TemporaryMailBox value(?,?,?,?,?);";
+        System.out.println("inDBA");
+        PreparedStatement ps = null;
+
+        try {
+            ps = con.prepareStatement(check_query);
+            ps.setInt(1, id);
+            ps.setInt(2, loginID);
+            ps.setInt(3, recv);
+            ps.setString(4, title);
+            ps.setString(5, contents);
+            ps.executeUpdate();
+
+        } catch (SQLException e){
+                return false;
+        }
+
+        return true;
+    }
+
 }

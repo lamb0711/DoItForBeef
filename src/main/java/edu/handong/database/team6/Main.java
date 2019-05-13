@@ -6,10 +6,13 @@ import java.util.StringTokenizer;
 
 public class Main {
 
+    //start menu
     static int USER_LOGIN = 1;
     static int USER_ADD = 2;
     static int USER_CHANGE = 3;
     static int PROGRAM_EXIT = 4;
+
+    //log-in menu
     private static final int BLOG = 1;
     private static final int JISIKIN = 2;
     private static final int MAIL = 3;
@@ -19,9 +22,21 @@ public class Main {
     static final int LOG_IN = 99;
     private  static int userStatus = LOG_IN -1;
 
+    //mail menu
+    private static final int WRITEMAIL = 0;
+    private static final int AlLMAILS = 1;
+    private static final int MAILBOX = 2;
+    private static final int SENTMAILBOX = 3;
+    private static final int TEMPORARYMAILBOX = 4;
+    private static final int TOMEMAILBOX = 5;
+    private static final int TRASHCAN = 6;
+    private static final int SPAMMAILBOX = 7;
+    private static final int GOTOHOME = 8;
+
     public static void main(String[] args) throws IOException {
         BufferedReader rs = new BufferedReader(new InputStreamReader(System.in));
         DBA db = new DBA();
+        Mail mail = new Mail();
 
         if (!db.connect()) {
             System.out.println(" Connection fails ... Please try again ...");
@@ -29,7 +44,7 @@ public class Main {
         }
 
         int menu = 0;
-        int loginMenu = 0;
+        int loginMenu = -999;
         while(menu != PROGRAM_EXIT) {
             printMenu();
 
@@ -40,14 +55,48 @@ public class Main {
                 if(userStatus == LOG_IN){
                     printLoginMenu();
                     loginMenu = Integer.parseInt(rs.readLine());
+                    System.out.println("you choose " + loginMenu);
                     if(loginMenu == BLOG){
                         //do somethings
+
                     }
                     else if(loginMenu == JISIKIN){
                         //do somethings
                     }
                     else if(loginMenu == MAIL){
-                        //do somethings
+                        while(mail.getMailInput() != GOTOHOME ) {
+                            mail.printMailMenu();
+                            mail.setMailInput(Integer.parseInt(rs.readLine()));
+                            if(mail.getMailInput() == WRITEMAIL){
+                                mail.writeMail(db, rs);
+                            }
+                            else if(mail.getMailInput() == AlLMAILS){
+                                //code
+                            }
+                            else if(mail.getMailInput() == MAILBOX){
+                                //code
+                            }
+                            else if(mail.getMailInput() == SENTMAILBOX){
+                                //code
+                            }
+                            else if(mail.getMailInput() == TEMPORARYMAILBOX){
+                                //code
+                            }
+                            else if(mail.getMailInput() == TOMEMAILBOX){
+                                //code
+                            }
+                            else if(mail.getMailInput() == TRASHCAN){
+                                //code
+                            }
+                            else if(mail.getMailInput() == SPAMMAILBOX){
+                                //code
+                            }
+                            else if(mail.getMailInput() == GOTOHOME){
+                                continue;
+                            }
+
+                        }
+
                     }
                     else if(loginMenu == MUSIC){
                         //do somethings
