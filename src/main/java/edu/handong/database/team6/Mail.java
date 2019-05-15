@@ -2,12 +2,11 @@ package edu.handong.database.team6;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.*;
 
 public class Mail {
 
-    private static int mailCount ;//= 0;
-    private int mailID = mailCount;
     private static int mailBoxCount;// = 0;
     private static int input;// = -99;
     private static String contents;
@@ -15,9 +14,9 @@ public class Mail {
     //private static int sender;
     private static String title;
     private static String[] mailBoxName; //= new String[30];
+    private static String sendStatus = null;
 
     public Mail(){
-        mailCount = 0;
         mailBoxCount = 0;
         input = -99;
         mailBoxName = new String[30];
@@ -47,6 +46,11 @@ public class Mail {
             }
         }
 
+    }
+
+    public static void printSendMenu() {
+        mailBoxName = null;
+        System.out.println("Do you want to send now?(Y/N)");
     }
 
     public static int getMailInput(){
@@ -92,9 +96,20 @@ public class Mail {
             System.out.println("Contents (INPUT CONTENTS OF YOUR MAIL<300 without Enter)");
             setContents(rs.readLine());
 
-            if (db.write(++mailCount,getReceiver(), getTitle(), getContents())) {
-                System.out.println(" \nThere are already registered user with either same id, same name, or email.\n ");
-
+            if (db.write(getReceiver(), getTitle(), getContents())) {
+                System.out.println(" \nSaved....\n ");
+                printSendMenu();
+                rs = new BufferedReader(new InputStreamReader(System.in));
+                sendStatus = rs.readLine();
+                if(sendStatus.equalsIgnoreCase("Y")){
+                    //move the mail from temp mail to sent mail
+                    //지금 안되는 이유가 indexing을 못함
+                    if(db.send(getReceiver(), getTitle(), getContents()))
+                        System.out.println("Sent Successfully");
+                }
+                else{
+                    System.out.println("This mail is saved in Temporary Mail Box");
+                }
             } /*else {
                 if (db.add(user))
                     System.out.println(" Sign up success ! Welcome to NAVER :) ");
