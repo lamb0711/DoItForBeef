@@ -19,8 +19,10 @@ public class Main {
     private static final int MUSIC = 4;
     private static final int MYPAGE = 5;
     private static final int SHOPPING = 6;
+    private static final int LOGOUT = 7;
     static final int LOG_IN = 99;
-    private  static int userStatus = LOG_IN -1;
+    static final int LOG_OUT = 98;
+    private  static int userStatus = LOG_OUT;
 
     //mail menu
     private static final int WRITEMAIL = 0;
@@ -107,6 +109,9 @@ public class Main {
                     else if(loginMenu == SHOPPING){
                         //do somethings
                     }
+                    else if(loginMenu == LOGOUT){
+                        userStatus = LOG_OUT;
+                    }
 
                 }
 
@@ -141,6 +146,7 @@ public class Main {
         System.out.println(" 4. Music");
         System.out.println(" 5. My page");
         System.out.println(" 6. Shopping");
+        System.out.println(" 7. Log-out");
         System.out.println(" ------------------------");
         System.out.println(" Select the Menu : ");
     }

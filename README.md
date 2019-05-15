@@ -8,7 +8,7 @@ USER(4)
 4. withdrawal(IDEA)
 5.
 
-Mail
+Mail(2/23)
 1. Write mail in TempMailBox(done)
 2. Send to user(done)
 3. check All mails (not start yet)
