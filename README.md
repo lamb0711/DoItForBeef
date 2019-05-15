@@ -9,9 +9,9 @@ USER(4)
 5.
 
 Mail
-1. Write mail in TempMailBox
-2. Send to user(not start yet)
-3. check All mails
+1. Write mail in TempMailBox(done)
+2. Send to user(done)
+3. check All mails (not start yet)
 4. classify mails to mail Box, to-me mail Box, spam mail box
 5. add my mail box
 6. modify my mail box name

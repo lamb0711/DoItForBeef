@@ -55,7 +55,7 @@ public class Main {
                 if(userStatus == LOG_IN){
                     printLoginMenu();
                     loginMenu = Integer.parseInt(rs.readLine());
-                    System.out.println("you choose " + loginMenu);
+
                     if(loginMenu == BLOG){
                         //do somethings
 

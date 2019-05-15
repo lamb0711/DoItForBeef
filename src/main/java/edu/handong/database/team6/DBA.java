@@ -167,15 +167,14 @@ public class DBA {
 
 
 //Mail
-    public boolean write(int id, int recv, String title, String contents) {
 
+    public boolean write(int recv, String title, String contents) {
+        int id = 0;
             String check_query = "insert into TemporaryMailBox value(?,?,?,?,?);";
-        System.out.println("inDBA");
         PreparedStatement ps = null;
-
         try {
             ps = con.prepareStatement(check_query);
-            ps.setInt(1, id);
+            ps.setString(1, null);
             ps.setInt(2, loginID);
             ps.setInt(3, recv);
             ps.setString(4, title);
@@ -184,6 +183,50 @@ public class DBA {
 
         } catch (SQLException e){
                 return false;
+        }
+
+        return true;
+    }
+
+    public boolean send(int recv, String title, String contents) {
+        int id=0;
+        String insertQuery = "insert into sentmailbox value(?, ?, ?, ?, ?);";
+        String selectSendQuery = "select * from temporarymailbox order by mailID desc limit 1;";
+        String deleteQuery = "delete from temporarymailbox where mailID IN ( select mailID from sentmailbox);";
+        //String selectDeleteQuery = "( select mailID from sentmailbox);";
+
+        PreparedStatement selectSend = null;
+        PreparedStatement insert = null;
+        PreparedStatement selectDelete = null;
+        PreparedStatement delete = null;
+        ResultSet rs;
+        System.out.println("please");
+
+        try {
+            selectSend = con.prepareStatement(selectSendQuery);
+            rs = selectSend.executeQuery();
+            if(rs.next()) {
+                insert = con.prepareStatement(insertQuery);
+                insert.setInt(1, rs.getInt(1));
+                //System.out.println(rs.getInt(1));
+                insert.setInt(2, rs.getInt(2));
+                //System.out.println(rs.getInt(2));
+                insert.setInt(3, rs.getInt(3));
+                //System.out.println(rs.getInt(3));
+                //System.out.println(rs.getString(4));
+                insert.setString(4, rs.getString(4));
+                //System.out.println(rs.getString(4));
+                insert.setString(5, rs.getString(5));
+                //System.out.println(rs.getString(5));
+                insert.executeUpdate();
+            }
+
+                delete = con.prepareStatement(deleteQuery);
+                delete.executeUpdate();
+
+        } catch (SQLException e){
+            System.out.println("Exception");
+            return false;
         }
 
         return true;
