@@ -110,7 +110,7 @@ public class Main {
                         //do somethings
                     }
                     else if(loginMenu == LOGOUT){
-                        userStatus = LOG_OUT;
+                        userStatus = LOG_OUT ;
                     }
 
                 }
