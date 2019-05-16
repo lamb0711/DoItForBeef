@@ -4,7 +4,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 
 public class Music {
 	BufferedReader rs = new BufferedReader(new InputStreamReader(System.in));
@@ -21,7 +24,8 @@ public class Music {
 	        System.out.println(" ------------------------");
 			System.out.println("1. Add Music ");
 			System.out.println("2. Search Music Information");
-			
+	        System.out.println("3. Listen Music");
+	        System.out.println("4. Ask for correction of wrong information");
 			
 			System.out.println("0 : Back to main menu ");
 			System.out.println(" ------------------------");
@@ -39,6 +43,15 @@ public class Music {
 				searchMusicInfo();
 				break;
 				
+			case 3:
+				searchMusicInfo();
+				break;
+				
+			case 4:
+				searchMusicInfo();
+				break;
+				
+			
 			case 0:
 				break;
 			
@@ -87,17 +100,103 @@ public class Music {
 		System.out.println("\nAdd music success ! ");
 	}
 	
-	void searchMusicInfo(){
+	
+	void searchMusicInfo() throws NumberFormatException, IOException, SQLException{
 		String searchKeyword;
+		String query;
+		int menuOption;
+		Statement pstmt;
+		ResultSet rt;
+		
 		
 		System.out.println("\tSelect search category");
         System.out.println(" ------------------------");
-        System.out.print(" 1. Music title");
-        System.out.print(" 2. Artist name");
-        System.out.print(" 3. Album name");
+        System.out.println(" 1. Music title");
+        System.out.println(" 2. Artist name");
+        System.out.println(" 3. Album name");
         System.out.println(" ------------------------");
 		
+        menuOption = Integer.parseInt(rs.readLine());
         
+        switch(menuOption) {
+        
+		case 1:
+			System.out.print("Please input Music title : ");
+			searchKeyword = rs.readLine();
+			query = "Select * from MusicList where title like '%"+searchKeyword+"%'";
+			pstmt = DBA.con.createStatement();
+			
+			rt = pstmt.executeQuery(query);
+			
+			System.out.format("music_id			title			artist_name			album_name			release_date			lyrics");
+			System.out.println();
+			while(rt.next()) {
+				int music_id = rt.getInt("music_id");
+				String title = rt.getString("title");
+				String artist_name = rt.getString("artist_name");
+				String album_name = rt.getString("album_name");
+				String release_date = rt.getString("release_date");
+				String lyrics = rt.getString("lyrics");
+				
+				System.out.format("%5s %30s %30s %30s %30s %30s\n",music_id, title, artist_name, album_name, release_date, lyrics);
+				System.out.println();
+			}
+			
+			break;
+			
+		case 2:
+			System.out.print("Please input Artist name of Music : ");
+			searchKeyword = rs.readLine();
+			query = "Select * from MusicList where artist_name like '%"+searchKeyword+"%'";
+			pstmt = DBA.con.createStatement();
+			
+			rt = pstmt.executeQuery(query);
+			
+			System.out.format("music_id			title			artist_name			album_name			release_date			lyrics");
+			System.out.println();
+			while(rt.next()) {
+				int music_id = rt.getInt("music_id");
+				String title = rt.getString("title");
+				String artist_name = rt.getString("artist_name");
+				String album_name = rt.getString("album_name");
+				String release_date = rt.getString("release_date");
+				String lyrics = rt.getString("lyrics");
+				
+				System.out.format("%5s %30s %30s %30s %30s %s\n",music_id, title, artist_name, album_name, release_date, lyrics);
+				System.out.println();
+			}
+			
+			
+			break;
+			
+		case 3:
+			System.out.print("Please input Album name of Music : ");
+			searchKeyword = rs.readLine();
+			query = "Select * from MusicList where album_name like '%"+searchKeyword+"%'";
+			pstmt = DBA.con.createStatement();
+			
+			rt = pstmt.executeQuery(query);
+			
+			System.out.format("music_id			title			artist_name			album_name			release_date			lyrics");
+			System.out.println();
+			while(rt.next()) {
+				int music_id = rt.getInt("music_id");
+				String title = rt.getString("title");
+				String artist_name = rt.getString("artist_name");
+				String album_name = rt.getString("album_name");
+				String release_date = rt.getString("release_date");
+				String lyrics = rt.getString("lyrics");
+				
+				System.out.format("%5s %30s %30s %30s %30s %30s\n",music_id, title, artist_name, album_name, release_date, lyrics);
+				System.out.println();
+			}
+			break;
+			
+		default :
+			System.out.println("Please select again!");
+			break;
+		
+		}
         
 		
 		//String query = 
