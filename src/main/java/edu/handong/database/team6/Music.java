@@ -28,8 +28,8 @@ public class Music {
 	        System.out.println("04. Listen Music");//최근 추가, 횟수 ++
 	        System.out.println("    - Add Music to MyList");
 	        System.out.println("    - Add Music to Favorite List");
-	        System.out.println("05. Ask for the addition of new music "); //장르 추가~~
-	        System.out.println("06. Ask for correction of wrong information");
+	        System.out.println("05. Ask new music "); //장르 추가~~
+	        System.out.println("06. Ask to modify wrong information (Music title | Artist | Album | Genre)");
 	        System.out.println();
 	        System.out.println("\tMY MUSIC");
 	        System.out.println(" ------------------------");
@@ -50,19 +50,19 @@ public class Music {
 			switch(menuOption) {
 			
 			case 0:
-				
+				System.out.println("Goodbye~!");
 				break;
 				
 			case 1:
-				addMusic();
+				
 				break;
 				
 			case 2:
-				searchMusicInfo();
+				pirntAllMusicList();
 				break;
 				
 			case 3:
-				
+				searchMusicInfo();
 				break;
 				
 			case 4:
@@ -70,12 +70,9 @@ public class Music {
 				break;
 				
 			case 5:
-				pirntAllMusicList();
+				addMusic();
 				break;
 				
-			
-			case 99:
-				break;
 				
 			default :
 				System.out.println("Please select again!");
@@ -83,6 +80,11 @@ public class Music {
 			
 			}
 		}
+	}
+	
+	
+	void pirntAllMusicList() {
+		
 	}
 	
 	
@@ -107,13 +109,17 @@ public class Music {
 		
 		while(!line.equals("Q!")) {
 			lyrics += line;
+			lyrics += "\n";
 			line = rs.readLine();
 		}
-		
 		musicList.setLyrics(lyrics);
 		
+		System.out.print("Genre (POP | HIP-HOP | R&B | ROCK/FOLK | DANCE):");
+		musicList.setGenre(rs.readLine());
 		
-		String query = "insert into MusicList(artist_name, album_name, release_date, lyrics, title) values(?,?,?,?,?);";
+		musicList.setCount(0);
+		
+		String query = "insert into MusicList(artist_name, album_name, release_date, lyrics, title, count, genre) values(?,?,?,?,?,?,?);";
 		
 		pstmt = DBA.con.prepareStatement(query);
 		
@@ -122,6 +128,8 @@ public class Music {
 		pstmt.setString(3,musicList.getRelease_date());
 		pstmt.setString(4,musicList.getLyrics());
 		pstmt.setString(5,musicList.getTitle());
+		pstmt.setInt(6, 0);
+		pstmt.setString(7, musicList.getGenre());
 		pstmt.executeUpdate();
 		
 		System.out.println("\nAdd music success ! ");
@@ -141,6 +149,7 @@ public class Music {
         System.out.println(" 1. Music title");
         System.out.println(" 2. Artist name");
         System.out.println(" 3. Album name");
+        System.out.println(" 4. Lyrics");
         System.out.println(" ------------------------");
 		
         menuOption = Integer.parseInt(rs.readLine());
@@ -155,17 +164,18 @@ public class Music {
 			
 			rt = pstmt.executeQuery(query);
 			
-			System.out.format("music_id			title			artist_name			album_name			release_date			lyrics");
-			System.out.println();
 			while(rt.next()) {
 				int music_id = rt.getInt("music_id");
 				String title = rt.getString("title");
 				String artist_name = rt.getString("artist_name");
 				String album_name = rt.getString("album_name");
 				String release_date = rt.getString("release_date");
-				String lyrics = rt.getString("lyrics");
-				
-				System.out.format("%5s %30s %30s %30s %30s %30s\n",music_id, title, artist_name, album_name, release_date, lyrics);
+				String genre = rt.getString("genre");
+				int count = rt.getInt("count");
+				System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+				System.out.format("music_id	     title	     artist_name                        album_name	                   release_date	             genre         count");
+				System.out.println();
+				System.out.format("%5s %20s %20s %50s %20s %20s %10s\n",music_id, title, artist_name, album_name, release_date, genre, count);
 				System.out.println();
 			}
 			
@@ -179,17 +189,19 @@ public class Music {
 			
 			rt = pstmt.executeQuery(query);
 			
-			System.out.format("music_id			title			artist_name			album_name			release_date			lyrics");
-			System.out.println();
+			
 			while(rt.next()) {
 				int music_id = rt.getInt("music_id");
 				String title = rt.getString("title");
 				String artist_name = rt.getString("artist_name");
 				String album_name = rt.getString("album_name");
 				String release_date = rt.getString("release_date");
-				String lyrics = rt.getString("lyrics");
-				
-				System.out.format("%5s %30s %30s %30s %30s %s\n",music_id, title, artist_name, album_name, release_date, lyrics);
+				String genre = rt.getString("genre");
+				int count = rt.getInt("count");
+				System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+				System.out.format("music_id	     title	     artist_name                        album_name	                   release_date	             genre         count");
+				System.out.println();
+				System.out.format("%5s %20s %20s %50s %20s %20s %10s\n",music_id, title, artist_name, album_name, release_date, genre, count);
 				System.out.println();
 			}
 			
@@ -204,8 +216,31 @@ public class Music {
 			
 			rt = pstmt.executeQuery(query);
 			
-			System.out.format("music_id			title			artist_name			album_name			release_date			lyrics");
-			System.out.println();
+			while(rt.next()) {
+				int music_id = rt.getInt("music_id");
+				String title = rt.getString("title");
+				String artist_name = rt.getString("artist_name");
+				String album_name = rt.getString("album_name");
+				String release_date = rt.getString("release_date");
+				String genre = rt.getString("genre");
+				int count = rt.getInt("count");
+				System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+				System.out.format("music_id	     title	     artist_name                        album_name	                   release_date	             genre         count");
+				System.out.println();
+				System.out.format("%5s %20s %20s %50s %20s %20s %10s\n",music_id, title, artist_name, album_name, release_date, genre, count);
+				System.out.println();
+			}
+			break;
+			
+		case 4:
+			System.out.print("Please input Music lyrics : ");
+			searchKeyword = rs.readLine();
+			query = "Select * from MusicList where lyrics like '%"+searchKeyword+"%'";
+			pstmt = DBA.con.createStatement();
+			
+			rt = pstmt.executeQuery(query);
+			
+			
 			while(rt.next()) {
 				int music_id = rt.getInt("music_id");
 				String title = rt.getString("title");
@@ -213,8 +248,17 @@ public class Music {
 				String album_name = rt.getString("album_name");
 				String release_date = rt.getString("release_date");
 				String lyrics = rt.getString("lyrics");
+				String genre = rt.getString("genre");
+				int count = rt.getInt("count");
 				
-				System.out.format("%5s %30s %30s %30s %30s %30s\n",music_id, title, artist_name, album_name, release_date, lyrics);
+				System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+				System.out.println("\tLyrics");
+				System.out.println(lyrics);
+				System.out.println("-----------------------------------------------------------------------------------------------------------------------------------------------------------");
+				System.out.format("music_id	     title	     artist_name                        album_name	                   release_date	             genre         count");
+				System.out.println();
+				System.out.format("%5s %20s %20s %50s %20s %20s %10s\n",music_id, title, artist_name, album_name, release_date, genre, count);
+				System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 				System.out.println();
 			}
 			break;
@@ -224,11 +268,6 @@ public class Music {
 			break;
 		
 		}
-	}
-	
-	
-	void pirntAllMusicList() {
-		
 	}
 	
 	
