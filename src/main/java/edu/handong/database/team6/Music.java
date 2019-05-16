@@ -24,12 +24,12 @@ public class Music {
 	        System.out.println(" ------------------------");
 	        System.out.println("01. Top 10"); 
 	        System.out.println("02. Print All Music List");
-			System.out.println("03. Search Music  (Music title | Artist | Album | Genre)"); //장르 추가~!
+			System.out.println("03. Search Music  (Music title | Artist | Album | Genre | Lyrics)"); //장르 추가~!
 	        System.out.println("04. Listen Music");//최근 추가, 횟수 ++
 	        System.out.println("    - Add Music to MyList");
 	        System.out.println("    - Add Music to Favorite List");
 	        System.out.println("05. Ask new music "); //장르 추가~~
-	        System.out.println("06. Ask to modify wrong information (Music title | Artist | Album | Genre)");
+	        System.out.println("06. Ask to modify wrong information (Music title | Artist | Album | Genre | Lyrics)");
 	        System.out.println();
 	        System.out.println("\tMY MUSIC");
 	        System.out.println(" ------------------------");
@@ -84,6 +84,10 @@ public class Music {
 	
 	
 	void pirntAllMusicList() {
+		String query = "select * from MusicList;";
+		Statement pstmt;
+		ResultSet rt;
+		
 		
 	}
 	
@@ -149,7 +153,8 @@ public class Music {
         System.out.println(" 1. Music title");
         System.out.println(" 2. Artist name");
         System.out.println(" 3. Album name");
-        System.out.println(" 4. Lyrics");
+        System.out.println(" 4. Genre");
+        System.out.println(" 5. Lyrics");
         System.out.println(" ------------------------");
 		
         menuOption = Integer.parseInt(rs.readLine());
@@ -233,6 +238,30 @@ public class Music {
 			break;
 			
 		case 4:
+			System.out.print("Please input Genre of Music (POP | HIP-HOP | R&B | ROCK/FOLK | DANCE) : ");
+			searchKeyword = rs.readLine();
+			query = "Select * from MusicList where genre like '%"+searchKeyword+"%'";
+			pstmt = DBA.con.createStatement();
+			
+			rt = pstmt.executeQuery(query);
+			
+			while(rt.next()) {
+				int music_id = rt.getInt("music_id");
+				String title = rt.getString("title");
+				String artist_name = rt.getString("artist_name");
+				String album_name = rt.getString("album_name");
+				String release_date = rt.getString("release_date");
+				String genre = rt.getString("genre");
+				int count = rt.getInt("count");
+				System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+				System.out.format("music_id	     title	     artist_name                        album_name	                   release_date	             genre         count");
+				System.out.println();
+				System.out.format("%5s %20s %20s %50s %20s %20s %10s\n",music_id, title, artist_name, album_name, release_date, genre, count);
+				System.out.println();
+			}
+			break;
+			
+		case 5:
 			System.out.print("Please input Music lyrics : ");
 			searchKeyword = rs.readLine();
 			query = "Select * from MusicList where lyrics like '%"+searchKeyword+"%'";
