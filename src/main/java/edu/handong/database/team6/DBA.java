@@ -74,7 +74,7 @@ public class DBA {
     }
 
     public boolean logIn(int id, int pw) {
-        String check_query = "select * from user where `user_id`=? OR `user_name`=?;";
+        String check_query = "select * from user where `id`=? OR `name`=?;";
 
         PreparedStatement ps = null;
         ResultSet rs;

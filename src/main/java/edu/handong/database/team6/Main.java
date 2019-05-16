@@ -35,7 +35,7 @@ public class Main {
     private static final int SPAMMAILBOX = 7;
     private static final int GOTOHOME = 8;
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
         BufferedReader rs = new BufferedReader(new InputStreamReader(System.in));
         DBA db = new DBA();
         Mail mail = new Mail();
@@ -102,6 +102,8 @@ public class Main {
                     }
                     else if(loginMenu == MUSIC){
                         //do somethings
+                    	Music music = new Music();
+                    	music.seletMenu();
                     }
                     else if(loginMenu == MYPAGE){
                         //do somethings
@@ -121,9 +123,7 @@ public class Main {
                 user_search(db, rs);
             }
         }
-
         db.disconnect();
-
     }
 
     public static void printMenu() {
