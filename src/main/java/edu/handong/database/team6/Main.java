@@ -19,7 +19,7 @@ public class Main {
     static final int LOG_IN = 99;
     private  static int userStatus = LOG_IN -1;
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
         BufferedReader rs = new BufferedReader(new InputStreamReader(System.in));
         DBA db = new DBA();
 
@@ -51,6 +51,8 @@ public class Main {
                     }
                     else if(loginMenu == MUSIC){
                         //do somethings
+                    	Music music = new Music();
+                    	music.seletMenu();
                     }
                     else if(loginMenu == MYPAGE){
                         //do somethings
@@ -67,9 +69,7 @@ public class Main {
                 user_search(db, rs);
             }
         }
-
         db.disconnect();
-
     }
 
     public static void printMenu() {
