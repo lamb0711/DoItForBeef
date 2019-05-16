@@ -22,12 +22,24 @@ public class Music {
 			
 			System.out.println("\tNAVER MUSIC");
 	        System.out.println(" ------------------------");
+	        System.out.println("0. Top 10");
 			System.out.println("1. Add Music ");
 			System.out.println("2. Search Music Information");
-	        System.out.println("3. Listen Music");
+	        System.out.println("3. Listen Music");//최근 추가, favorite 체크 가능, MyList 추가 가능, 횟수 ++
+	        System.out.println("    Add Music to MyList");
+	        System.out.println("    Add Music to Favorite List");
 	        System.out.println("4. Ask for correction of wrong information");
-			
-			System.out.println("0 : Back to main menu ");
+	        System.out.println("5. Print All Music List");
+	        System.out.println();
+	        System.out.println("\tMY MUSIC");
+	        System.out.println(" ------------------------");
+	        System.out.println("6. Print MyList Music");
+	        System.out.println("7. Print Recent Music");
+	        System.out.println("8. Pirnt My Favorite");
+	        System.out.println("9. Check My Voucher");
+	        System.out.println("10. Pirnt Purchased Music");
+	        System.out.println(" ------------------------");
+			System.out.println("00 : Back to main menu ");
 			System.out.println(" ------------------------");
 			System.out.println(" Select the Menu : ");
 			
@@ -52,7 +64,11 @@ public class Music {
 				break;
 				
 			
-			case 0:
+			case 00:
+				break;
+				
+			default :
+				System.out.println("Please select again!");
 				break;
 			
 			}
