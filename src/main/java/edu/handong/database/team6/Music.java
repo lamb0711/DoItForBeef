@@ -33,11 +33,12 @@ public class Music {
 	        System.out.println();
 	        System.out.println("\tMY MUSIC");
 	        System.out.println(" ------------------------");
-	        System.out.println("06. Print MyList Music");
-	        System.out.println("07. Print Recent Music");
-	        System.out.println("08. Pirnt My Favorite");
-	        System.out.println("09. Check My Voucher");
-	        System.out.println("10. Pirnt Purchased Music");
+	        System.out.println("06. Make new MyList");
+	        System.out.println("07. Print MyList Music");
+	        System.out.println("08. Print Recent Music");
+	        System.out.println("09. Pirnt My Favorite");
+	        System.out.println("10. Check My Voucher");
+	        System.out.println("11. Pirnt Purchased Music");
 	        System.out.println(" ------------------------");
 			System.out.println("99 : Back to main menu ");
 			System.out.println(" ------------------------");
@@ -68,6 +69,10 @@ public class Music {
 				
 				break;
 				
+			case 5:
+				pirntAllMusicList();
+				break;
+				
 			
 			case 99:
 				break;
@@ -79,6 +84,7 @@ public class Music {
 			}
 		}
 	}
+	
 	
 	void addMusic() throws IOException, SQLException {
 		String lyrics = " ";
@@ -218,9 +224,11 @@ public class Music {
 			break;
 		
 		}
-        
+	}
+	
+	
+	void pirntAllMusicList() {
 		
-		//String query = 
 	}
 	
 	
