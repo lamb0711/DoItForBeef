@@ -7,7 +7,14 @@ public class MusicList {
 	String album_name;
 	String release_date;
 	String lyrics;
+	int count;
 	
+	public int getCount() {
+		return count;
+	}
+	public void setCount(int count) {
+		this.count = count;
+	}
 	public int getMusic_id() {
 		return music_id;
 	}
