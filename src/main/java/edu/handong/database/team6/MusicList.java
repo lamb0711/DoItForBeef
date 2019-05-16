@@ -8,7 +8,14 @@ public class MusicList {
 	String release_date;
 	String lyrics;
 	int count;
+	String genre;
 	
+	public String getGenre() {
+		return genre;
+	}
+	public void setGenre(String genre) {
+		this.genre = genre;
+	}
 	public int getCount() {
 		return count;
 	}

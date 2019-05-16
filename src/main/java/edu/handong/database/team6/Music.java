@@ -22,25 +22,25 @@ public class Music {
 			
 			System.out.println("\tNAVER MUSIC");
 	        System.out.println(" ------------------------");
-	        System.out.println("00. Top 10"); 
-			System.out.println("01. Add Music "); //
-			System.out.println("02. Search Music Information"); //
-	        System.out.println("03. Listen Music");//최근 추가, favorite 체크 가능, MyList 추가 가능, 횟수 ++
-	        System.out.println("    Add Music to MyList");
-	        System.out.println("    Add Music to Favorite List");
-	        System.out.println("04. Ask for correction of wrong information");
-	        System.out.println("05. Print All Music List");
+	        System.out.println("01. Top 10"); 
+	        System.out.println("02. Print All Music List");
+			System.out.println("03. Search Music  (Music title | Artist | Album | Genre)"); //장르 추가~!
+	        System.out.println("04. Listen Music");//최근 추가, 횟수 ++
+	        System.out.println("    - Add Music to MyList");
+	        System.out.println("    - Add Music to Favorite List");
+	        System.out.println("05. Ask for the addition of new music "); //장르 추가~~
+	        System.out.println("06. Ask for correction of wrong information");
 	        System.out.println();
 	        System.out.println("\tMY MUSIC");
 	        System.out.println(" ------------------------");
-	        System.out.println("06. Make new MyList");
-	        System.out.println("07. Print MyList Music");
-	        System.out.println("08. Print Recent Music");
-	        System.out.println("09. Pirnt My Favorite");
-	        System.out.println("10. Check My Voucher");
-	        System.out.println("11. Pirnt Purchased Music");
+	        System.out.println("07. Make new MyList");
+	        System.out.println("08. Print MyList Music");
+	        System.out.println("09. Print Recent Music");
+	        System.out.println("10. Pirnt My Favorite");
+	        System.out.println("11. Check My Voucher");
+	        System.out.println("12. Pirnt Purchased Music");
 	        System.out.println(" ------------------------");
-			System.out.println("99 : Back to main menu ");
+			System.out.println("0 : Back to main menu ");
 			System.out.println(" ------------------------");
 			System.out.println(" Select the Menu : ");
 			
