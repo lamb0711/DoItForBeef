@@ -83,11 +83,31 @@ public class Music {
 	}
 	
 	
-	void pirntAllMusicList() {
+	void pirntAllMusicList() throws SQLException {
 		String query = "select * from MusicList;";
 		Statement pstmt;
 		ResultSet rt;
 		
+		pstmt = DBA.con.createStatement();
+		
+		rt = pstmt.executeQuery(query);
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.format("music_id |	   title	   |   artist_name    |                    album_name	              |        release_date	    |      genre     |    count");
+		System.out.println();
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+
+
+		while(rt.next()) {
+			int music_id = rt.getInt("music_id");
+			String title = rt.getString("title");
+			String artist_name = rt.getString("artist_name");
+			String album_name = rt.getString("album_name");
+			String release_date = rt.getString("release_date");
+			String genre = rt.getString("genre");
+			int count = rt.getInt("count");
+			System.out.format("%5s %23s %20s %50s %20s %23s %10s\n",music_id, title, artist_name, album_name, release_date, genre, count);
+			System.out.println();
+		}
 		
 	}
 	
