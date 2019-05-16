@@ -33,6 +33,26 @@ Mail(2/23)
 22. sort by date
 23. sort by title
 
+Music()
+1. Top 10
+2. Print All Music List
+3. Search Music
+3-1. Music title (하위 메뉴도 독립된 시나리오 - select 테이블 값이 계속 변하기 때문에)
+  2. Artist
+  3. Album
+  4. Genre
+  5. Lyrics
+4. Listen Music
+ 4-1. Add Music to MyList
+   2. Add Music to Favorite List
+5. Ask new music
+6. Ask to modify wrong information (3과 같음)
+7. Make new MyList
+8. Print MyList Music
+9. Print Recent Music
+10. Pirnt My Favorite
+11. Check My Voucher
+12. Pirnt Purchased Music
 
 Todo
 make Log out for using while in gotohome
