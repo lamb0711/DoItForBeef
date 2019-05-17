@@ -33,7 +33,9 @@ public class Main {
     private static final int TOMEMAILBOX = 5;
     private static final int TRASHCAN = 6;
     private static final int SPAMMAILBOX = 7;
-    private static final int GOTOHOME = 8;
+    private static final int GOTOMAILHOME = 8;
+    private static final int GOTOHOME = 9;
+
 
     public static void main(String[] args) throws IOException {
         BufferedReader rs = new BufferedReader(new InputStreamReader(System.in));
@@ -69,29 +71,41 @@ public class Main {
                         while(mail.getMailInput() != GOTOHOME ) {
                             mail.printMailMenu();
                             mail.setMailInput(Integer.parseInt(rs.readLine()));
+
                             if(mail.getMailInput() == WRITEMAIL){
                                 mail.writeMail(db, rs);
                             }
                             else if(mail.getMailInput() == AlLMAILS){
                                 //code
+                                mail.printAllMails(db, rs);
+
                             }
                             else if(mail.getMailInput() == MAILBOX){
                                 //code
+                                mail.printMails(db, rs);
                             }
                             else if(mail.getMailInput() == SENTMAILBOX){
                                 //code
+                                mail.printSentMails(db, rs);
                             }
                             else if(mail.getMailInput() == TEMPORARYMAILBOX){
                                 //code
+                                mail.printTemporaryMails(db, rs);
                             }
                             else if(mail.getMailInput() == TOMEMAILBOX){
                                 //code
+                                mail.printToMeMails(db, rs);
                             }
                             else if(mail.getMailInput() == TRASHCAN){
                                 //code
+                                mail.printTrashCan(db, rs);
                             }
                             else if(mail.getMailInput() == SPAMMAILBOX){
                                 //code
+                                mail.printSpamMails(db, rs);
+                            }
+                            else if(mail.getMailInput() == GOTOMAILHOME){
+                                continue;
                             }
                             else if(mail.getMailInput() == GOTOHOME){
                                 continue;

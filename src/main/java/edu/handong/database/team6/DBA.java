@@ -188,8 +188,8 @@ public class DBA {
         return true;
     }
 
-    public boolean send(int recv, String title, String contents) {
-        int id=0;
+    public boolean send() {
+        //int id=0;
         String insertQuery = "insert into sentmailbox value(?, ?, ?, ?, ?);";
         String selectSendQuery = "select * from temporarymailbox order by mailID desc limit 1;";
         String deleteQuery = "delete from temporarymailbox where mailID IN ( select mailID from sentmailbox);";
@@ -200,7 +200,7 @@ public class DBA {
         PreparedStatement selectDelete = null;
         PreparedStatement delete = null;
         ResultSet rs;
-        System.out.println("please");
+        //System.out.println("please");
 
         try {
             selectSend = con.prepareStatement(selectSendQuery);
@@ -230,6 +230,174 @@ public class DBA {
         }
 
         return true;
+    }
+
+    public boolean getAllMails(){
+        String check_query = "select mailID, sender, title from Allmailbox;";
+
+        PreparedStatement ps = null;
+        ResultSet rs;
+        boolean gotIt = false;
+
+        try {
+            ps = con.prepareStatement(check_query);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                gotIt= true;
+                System.out.println("MailID :"+ rs.getInt(1)
+                                    + "   Sender : " + rs.getInt(2)
+                                    +"   Title : " + rs.getString(3));
+            }
+        } catch (SQLException e){
+
+        }
+
+        return gotIt;
+    }
+
+    public boolean getMails(){
+        String check_query = "select mailID, sender, title from mailbox;";
+
+        PreparedStatement ps = null;
+        ResultSet rs;
+        boolean gotIt = false;
+
+        try {
+            ps = con.prepareStatement(check_query);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                gotIt= true;
+                System.out.println("MailID :"+ rs.getInt(1)
+                        + "   Sender : " + rs.getInt(2)
+                        +"   Title : " + rs.getString(3));
+            }
+        } catch (SQLException e){
+
+        }
+
+        return gotIt;
+    }
+
+    public boolean getSentMails(){
+        String check_query = "select mailID, sender, title from sentmailbox;";
+
+        PreparedStatement ps = null;
+        ResultSet rs;
+        boolean gotIt = false;
+
+        try {
+            ps = con.prepareStatement(check_query);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                gotIt= true;
+                System.out.println("MailID :"+ rs.getInt(1)
+                        + "   Sender : " + rs.getInt(2)
+                        +"   Title : " + rs.getString(3));
+            }
+        } catch (SQLException e){
+
+        }
+
+        return gotIt;
+    }
+
+    public boolean getSpamMails(){
+        String check_query = "select mailID, sender, title from spammailbox;";
+
+        PreparedStatement ps = null;
+        ResultSet rs;
+        boolean gotIt = false;
+
+        try {
+            ps = con.prepareStatement(check_query);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                gotIt= true;
+                System.out.println("MailID :"+ rs.getInt(1)
+                        + "   Sender : " + rs.getInt(2)
+                        +"   Title : " + rs.getString(3));
+            }
+        } catch (SQLException e){
+
+        }
+
+        return gotIt;
+    }
+
+    public boolean getTemporaryMails(){
+        String check_query = "select mailID, sender, title from temporarymailbox;";
+
+        PreparedStatement ps = null;
+        ResultSet rs;
+        boolean gotIt = false;
+
+        try {
+            ps = con.prepareStatement(check_query);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                gotIt= true;
+                System.out.println("MailID :"+ rs.getInt(1)
+                        + "   Sender : " + rs.getInt(2)
+                        +"   Title : " + rs.getString(3));
+            }
+        } catch (SQLException e){
+
+        }
+
+        return gotIt;
+    }
+
+    public boolean getToMeMails(){
+        String check_query = "select mailID, sender, title from tomemailbox;";
+
+        PreparedStatement ps = null;
+        ResultSet rs;
+        boolean gotIt = false;
+
+        try {
+            ps = con.prepareStatement(check_query);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                gotIt= true;
+                System.out.println("MailID :"+ rs.getInt(1)
+                        + "   Sender : " + rs.getInt(2)
+                        +"   Title : " + rs.getString(3));
+            }
+        } catch (SQLException e){
+
+        }
+
+        return gotIt;
+    }
+
+    public boolean getTrashCan(){
+        String check_query = "select mailID, sender, title from trashcan;";
+
+        PreparedStatement ps = null;
+        ResultSet rs;
+        boolean gotIt = false;
+
+        try {
+            ps = con.prepareStatement(check_query);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                gotIt= true;
+                System.out.println("MailID :"+ rs.getInt(1)
+                        + "   Sender : " + rs.getInt(2)
+                        +"   Title : " + rs.getString(3));
+            }
+        } catch (SQLException e){
+
+        }
+
+        return gotIt;
     }
 
 }
