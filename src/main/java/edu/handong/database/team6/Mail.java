@@ -36,6 +36,7 @@ public class Mail {
         System.out.println("6. Trash Can");
         System.out.println("7. Spam Mail Box");
         System.out.println("8. Go to Home");
+        System.out.println("9. Go to Mail Home");
         System.out.println("------------------------");
         System.out.println("***** My Mail Box ******");
         if(mailBoxCount == 0)
@@ -103,8 +104,7 @@ public class Mail {
                 sendStatus = rs.readLine();
                 if(sendStatus.equalsIgnoreCase("Y")){
                     //move the mail from temp mail to sent mail
-                    //지금 안되는 이유가 indexing을 못함
-                    if(db.send(getReceiver(), getTitle(), getContents()))
+                    if(db.send())
                         System.out.println("Sent Successfully");
                 }
                 else{
@@ -121,6 +121,41 @@ public class Mail {
         } catch(Exception e) {
 
         }
+    }
+
+    public static void printAllMails(DBA db, BufferedReader rs) throws IOException{
+        System.out.println(""+ db.loginID + "'s All Mail Box");
+        db.getAllMails();
+    }
+
+    public static void printMails(DBA db, BufferedReader rs) throws IOException{
+        System.out.println(""+ db.loginID + "'s Mail Box");
+        db.getMails();
+    }
+
+    public static void printSentMails(DBA db, BufferedReader rs) throws IOException{
+        System.out.println(""+ db.loginID + "'s Sent Mail Box");
+        db.getSentMails();
+    }
+
+    public static void printSpamMails(DBA db, BufferedReader rs) throws IOException{
+        System.out.println(""+ db.loginID + "'s = Spam Mail Box");
+        db.getSpamMails();
+    }
+
+    public static void printTemporaryMails(DBA db, BufferedReader rs) throws IOException{
+        System.out.println(""+ db.loginID + "'s Temporary Mail Box");
+        db.getTemporaryMails();
+    }
+
+    public static void printToMeMails(DBA db, BufferedReader rs) throws IOException{
+        System.out.println(""+ db.loginID + "'s To-me Mail Box");
+        db.getToMeMails();
+    }
+
+    public static void printTrashCan(DBA db, BufferedReader rs) throws IOException{
+        System.out.println(""+ db.loginID + "'s Trash Can");
+        db.getTrashCan();
     }
 
 }
