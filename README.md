@@ -74,3 +74,15 @@ create table temporarymailbox(mailID MEDIUMINT NOT NULL AUTO_INCREMENT,
                                PRIMARY KEY(mailID));
 create table SentMailBox(mailID INT, sender INT,  title VARCHAR(30), contents VARCHAR(300));
 create table AllMailBox(mailID INT, sender INT,  title VARCHAR(30), contents VARCHAR(300), mailBoxName VARCHAR(30));
+
+MUSIC
+
+CREATE TABLE MusicList( music_id INT(11) NOT NULL AUTO_INCREMENT, title VARCHAR(100) NULL, artist_name VARCHAR(100) NULL, album_name VARCHAR(100) NULL, release_date DATETIME NOT NULL, lyrics TEXT NULL, PRIMARY KEY(music_id), title VARCHAR(100) NULL, count INT(100) NOT NULL, genre varchar(100));
+
+create table MusicUser( id INT(11) NOT NULL, myList TEXT NULL, count INT(11) NOT NULL, PRIMARY KEY(id),Voucher varchar(100));
+
+create table FavoriteList( music_id INT(11) NOT NULL, id INT(11) NOT NULL);
+
+create table MyList( id INT(11) NOT NULL, music_id INT(11) NOT NULL, myList_name varchar(100));
+
+create table RecentMusic( id INT(11) NOT NULL, music_id INT(11) NOT NULL, count int(11) NOT NULL);
