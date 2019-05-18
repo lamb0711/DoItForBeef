@@ -21,7 +21,7 @@ public class Music {
 		ResultSet rt;
 		
 		
-		pstmt = DBA.con.prepareStatement("select * from MusicUser where `id`=?");
+		pstmt = DBA.con.prepareStatement("select * from MusicUser where `id`=?;");
 		pstmt.setInt(1, Main.user_id);
 		rt = pstmt.executeQuery();
 			
@@ -54,8 +54,8 @@ public class Music {
 	        System.out.println("\tMY MUSIC");
 	        System.out.println(" ------------------------");
 	        System.out.println("08. Make new MyList");//
-	        System.out.println("09. Print MyList Music");
-	        System.out.println("10. Print Recent Music");
+	        System.out.println("09. Print MyList Music");//
+	        System.out.println("10. Print Recent Music");//
 	        System.out.println("11. Pirnt My Favorite");
 	        System.out.println("12. Check My Voucher");//
 	        
@@ -110,6 +110,14 @@ public class Music {
 				printMyList(true);
 				break;
 				
+			case 10:
+				printRecentMusic();
+				break;
+				
+			case 11:
+				pirntMyFavorite();
+				break;
+				
 			case 12:
 				checkVoucher();
 				break;
@@ -121,6 +129,45 @@ public class Music {
 			}
 		}
 	}
+	
+	void pirntMyFavorite() throws SQLException {
+		ResultSet rt;
+		
+		pstmt = DBA.con.prepareStatement("select * from RecentMusic where `id`=?;");
+		pstmt.setInt(1, Main.user_id);
+		rt = pstmt.executeQuery();
+		
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.format("music_id |	   title	   |   artist_name    |                    album_name	              |        release_date	    |      genre     |    count");
+		System.out.println();
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+
+		while(rt.next()) {
+			int music_id = rt.getInt("music_id");
+			printOneMusicInformation(false,music_id);
+		}
+	}
+	
+	
+	void printRecentMusic() throws SQLException {
+		ResultSet rt;
+		
+		pstmt = DBA.con.prepareStatement("select * from RecentMusic where `id`=? order by count;");
+		pstmt.setInt(1, Main.user_id);
+		rt = pstmt.executeQuery();
+		
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		System.out.format("music_id |	   title	   |   artist_name    |                    album_name	              |        release_date	    |      genre     |    count");
+		System.out.println();
+		System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+
+		while(rt.next()) {
+			int music_id = rt.getInt("music_id");
+			printOneMusicInformation(false,music_id);
+		}
+		
+	}
+	
 	
 	void listenMusic() throws SQLException, NumberFormatException, IOException {
 		BufferedReader rs = new BufferedReader(new InputStreamReader(System.in));
@@ -138,7 +185,7 @@ public class Music {
 		printOneMusicInformation(true,music_id);
 		
 		//  music count++
-		pstmt = DBA.con.prepareStatement("select * from MusicList where `music_id`=?");
+		pstmt = DBA.con.prepareStatement("select * from MusicList where `music_id`=?;");
 		pstmt.setInt(1, music_id);
 		rt = pstmt.executeQuery();
 		
@@ -174,7 +221,7 @@ public class Music {
 		
 		//recent user count ++ recent count 에 유저 count 넣
 		//recent 유저카운트  불러오기 
-		pstmt = DBA.con.prepareStatement("select * from MusicUser where `id`=?");
+		pstmt = DBA.con.prepareStatement("select * from MusicUser where `id`=?;");
 		pstmt.setInt(1, Main.user_id);
 		rt = pstmt.executeQuery();
 		
@@ -204,7 +251,7 @@ public class Music {
 	void printOneMusicInformation(boolean menu,int music) throws SQLException {
 		ResultSet rt;
 		
-		pstmt = DBA.con.prepareStatement("select * from MusicList where `music_id`=?");
+		pstmt = DBA.con.prepareStatement("select * from MusicList where `music_id`=?;");
 		pstmt.setInt(1, music);
 		rt = pstmt.executeQuery();
 		
@@ -233,10 +280,12 @@ public class Music {
 	}
 	
 	
-	void printMyList(boolean printMusic) throws SQLException {
-		ResultSet rt;
+	void printMyList(boolean printMusic) throws SQLException, IOException {
+		BufferedReader rs = new BufferedReader(new InputStreamReader(System.in));
+		ResultSet rt ,rt2;
+		String mylist;
 		
-		pstmt = DBA.con.prepareStatement("select * from MusicUser where `id`=?");
+		pstmt = DBA.con.prepareStatement("select * from MusicUser where `id`=?;");
 		pstmt.setInt(1, Main.user_id);
 		rt = pstmt.executeQuery();
 		
@@ -261,7 +310,24 @@ public class Music {
 		        	return;
 		        }
 
+		        System.out.println("Input MyList name : ");
+		        mylist = rs.readLine();
 				//유저한테 마이리스트 입력받음
+		        
+		        pstmt = DBA.con.prepareStatement("select * from MyList where `id`=? and 'myList_name'=?;");
+				pstmt.setInt(1, Main.user_id);
+				pstmt.setString(2, mylist);
+				rt2 = pstmt.executeQuery();
+				
+				System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+				System.out.format("music_id |	   title	   |   artist_name    |                    album_name	              |        release_date	    |      genre     |    count");
+				System.out.println();
+				System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		
+				while(rt2.next()) {
+					int music_id = rt2.getInt("music_id");
+					printOneMusicInformation(false,music_id);
+				}
 				//마이리스트를 이용하여 해당 마이리스트의 이름과 유저 이름 을 가진 음악들 출력 
 			}
 			break;
@@ -281,7 +347,7 @@ public class Music {
 		
 		new_myList = rs.readLine();
 		
-		pstmt = DBA.con.prepareStatement("select * from MusicUser where `id`=?");
+		pstmt = DBA.con.prepareStatement("select * from MusicUser where `id`=?;");
 		pstmt.setInt(1, Main.user_id);
 		rt = pstmt.executeQuery();
 		
@@ -309,7 +375,7 @@ public class Music {
 		ResultSet rt;
 		
 		
-		pstmt = DBA.con.prepareStatement("select * from MusicUser where `id`=?");
+		pstmt = DBA.con.prepareStatement("select * from MusicUser where `id`=?;");
 		pstmt.setInt(1, Main.user_id);
 		rt = pstmt.executeQuery();
 		
@@ -331,7 +397,7 @@ public class Music {
 		BufferedReader rs = new BufferedReader(new InputStreamReader(System.in));
 		ResultSet rt;
 		
-		pstmt = DBA.con.prepareStatement("select * from MusicUser where `id`=?");
+		pstmt = DBA.con.prepareStatement("select * from MusicUser where `id`=?;");
 		pstmt.setInt(1, Main.user_id);
 		rt = pstmt.executeQuery();
 		
