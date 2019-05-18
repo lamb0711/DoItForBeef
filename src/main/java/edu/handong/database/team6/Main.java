@@ -106,7 +106,6 @@ public class Main {
             user.setPW(Integer.parseInt(token.nextToken()));
             
             user_id = user.getID();
-            
             if (db.logIn(user.getID(), user.getPW())) {
                 System.out.println(" \nWelcome" + user.getID() + ".\n ");
                 userStatus = LOG_IN;

@@ -26,7 +26,7 @@ public class Music {
 		rt = pstmt.executeQuery();
 			
 		if(rt.next()) {
-			System.out.println(rt.getInt("id"));				
+			System.out.println("You id : "+rt.getInt("id"));				
 			return ;
 		}else {
 			pstmt.executeUpdate("INSERT INTO MusicUser(id,myList,count,Voucher) VALUES("+Main.user_id+",NULL,0,NULL);");
@@ -44,9 +44,9 @@ public class Music {
 	        System.out.println("02. Print All Music List");//
 			System.out.println("03. Search Music  (Music title | Artist | Album | Genre | Lyrics)"); //
 	        System.out.println("04. Listen Music");//최근 추가, 횟수 ++
-	        System.out.println("    - Add Music to MyList");
-	        System.out.println("    - Add Music to Favorite List");
-	        System.out.println("    - Add Music to Recent List");
+	        System.out.println("    - Add Music to MyList");//
+	        System.out.println("    - Add Music to Favorite List");//
+	        System.out.println("    - Add Music to Recent List");//
 	        System.out.println("05. Ask new music "); //
 	        System.out.println("06. Ask to modify wrong information (Music title | Artist | Album | Genre | Lyrics | Release Date)");//
 	        System.out.println("07. Buy Voucher");//
@@ -75,7 +75,7 @@ public class Music {
 				
 			case 1:
 				//만들 함수 music_id를 넣으면 해당하는테이블이 출력 
-				
+				printOneMusicInformation(true,2);
 				break;
 				
 			case 2:
@@ -122,21 +122,111 @@ public class Music {
 		}
 	}
 	
-	void listenMusic() {
-		
-	}
-	
-	
-	void printOneMusicInformation() throws SQLException {
+	void listenMusic() throws SQLException, NumberFormatException, IOException {
+		BufferedReader rs = new BufferedReader(new InputStreamReader(System.in));
+		int music_id;
+		String answer;
 		ResultSet rt;
 		
+		pirntAllMusicList();
+		
+		System.out.println("\tEnter the music id : ");
+		
+		music_id = Integer.parseInt(rs.readLine());
+		
+		System.out.println("\tYou are listening to this music now ...");
+		printOneMusicInformation(true,music_id);
+		
+		//  music count++
+		pstmt = DBA.con.prepareStatement("select * from MusicList where `music_id`=?");
+		pstmt.setInt(1, music_id);
+		rt = pstmt.executeQuery();
+		
+		while(rt.next()) {
+			int count = rt.getInt("count");
+			count++;
+			pstmt.executeUpdate("UPDATE MusicList set count="+count+" where id = "+music_id+";");
+			break;
+		}
+		
+		//가사 나오기 
+		
+		//save favorite
+		System.out.println("\tDo you want to ♡(like) this music? (y/n): ");
+		answer = rs.readLine();
+		
+		if(answer.equalsIgnoreCase("y")) {
+			pstmt.executeUpdate("insert into FavoriteList(music_id, id) values("+music_id+","+Main.user_id+");");
+		}
+		answer = null;
+		
+		//save mylist
+		System.out.println("\tDo you want to add this music in mylist? (y/n): ");
+		answer = rs.readLine();
+		
+		if(answer.equalsIgnoreCase("y")) {
+			printMyList(false);
+			System.out.println("Please input myList name : ");
+			String myList = rs.readLine();
+			//새로운 마이리스트 추가 
+			pstmt.executeUpdate("insert into MyList(id, music_id, myList_name) values("+Main.user_id+","+music_id+","+myList+");");
+		}
+		
+		//recent user count ++ recent count 에 유저 count 넣
+		//recent 유저카운트  불러오기 
 		pstmt = DBA.con.prepareStatement("select * from MusicUser where `id`=?");
 		pstmt.setInt(1, Main.user_id);
 		rt = pstmt.executeQuery();
 		
+		int user_count = 0;
 		while(rt.next()) {
+			user_count = rt.getInt("count");
+			break;
+		}
+		
+		if(user_count < 10) {
+			//카운트가 10이하일 경우 
+			pstmt.executeUpdate("insert into RecentMusic(id, music_id, count) values("+Main.user_id+","+music_id+","+user_count+");");
+			user_count++;
+			pstmt.executeUpdate("UPDATE MusicUser set count="+user_count+" where id = "+Main.user_id+";");
 			
+		}else {
+			//카운트가 10이상일 경우 
+			int counter = user_count % 10;
+			pstmt.executeUpdate("insert into RecentMusic(id, music_id, count) values("+Main.user_id+","+music_id+","+counter+");");
+			user_count++;
+			pstmt.executeUpdate("UPDATE MusicUser set count="+user_count+" where id = "+Main.user_id+";");
+		}
+		
+	}
+	
+	
+	void printOneMusicInformation(boolean menu,int music) throws SQLException {
+		ResultSet rt;
+		
+		pstmt = DBA.con.prepareStatement("select * from MusicList where `music_id`=?");
+		pstmt.setInt(1, music);
+		rt = pstmt.executeQuery();
+		
+		if(menu == true) {
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+			System.out.format("music_id |	   title	   |   artist_name    |                    album_name	              |        release_date	    |      genre     |    count");
+			System.out.println();
+			System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+		}
+		
+	
+		while(rt.next()) {
+			int music_id = rt.getInt("music_id");
+			String title = rt.getString("title");
+			String artist_name = rt.getString("artist_name");
+			String album_name = rt.getString("album_name");
+			String release_date = rt.getString("release_date");
+			String genre = rt.getString("genre");
+			int count = rt.getInt("count");
 			
+			System.out.format("%5s %23s %20s %50s %20s %23s %10s\n",music_id, title, artist_name, album_name, release_date, genre, count);
+			System.out.println();
 			
 			break;
 		}
@@ -160,9 +250,10 @@ public class Music {
 				System.out.println("There is no myList");
 			}else {
 				String[] words = myList.split(",");
-		         
+		        int i = 1;
 		        for (String word : words ){
-		            System.out.println(word);
+		            System.out.println(i+word);
+		            i++;
 		        }
 		        
 		        if(printMusic == false) {
