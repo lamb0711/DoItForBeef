@@ -3,6 +3,7 @@ package edu.handong.database.team6;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,6 +17,23 @@ public class Music {
 	
 	int menuOption = 1;
 	
+	Music() throws Exception {
+		ResultSet rt;
+		
+		
+		pstmt = DBA.con.prepareStatement("select * from MusicUser where `id`=?");
+		pstmt.setInt(1, Main.user_id);
+		rt = pstmt.executeQuery();
+			
+		if(rt.next()) {
+			System.out.println(rt.getInt("id"));				
+			return ;
+		}else {
+			pstmt.executeUpdate("INSERT INTO MusicUser(id,myList,count,Voucher) VALUES("+Main.user_id+",NULL,0,NULL);");
+		}
+		
+	}
+	
 	void seletMenu() throws Exception{
 		
 		while(menuOption != 0) {
@@ -23,22 +41,24 @@ public class Music {
 			System.out.println("\tNAVER MUSIC");
 	        System.out.println(" ------------------------");
 	        System.out.println("01. Top 10"); 
-	        System.out.println("02. Print All Music List");
-			System.out.println("03. Search Music  (Music title | Artist | Album | Genre | Lyrics)"); //장르 추가~!
+	        System.out.println("02. Print All Music List");//
+			System.out.println("03. Search Music  (Music title | Artist | Album | Genre | Lyrics)"); //
 	        System.out.println("04. Listen Music");//최근 추가, 횟수 ++
 	        System.out.println("    - Add Music to MyList");
 	        System.out.println("    - Add Music to Favorite List");
-	        System.out.println("05. Ask new music "); //장르 추가~~
-	        System.out.println("06. Ask to modify wrong information (Music title | Artist | Album | Genre | Lyrics)");
+	        System.out.println("    - Add Music to Recent List");
+	        System.out.println("05. Ask new music "); //
+	        System.out.println("06. Ask to modify wrong information (Music title | Artist | Album | Genre | Lyrics | Release Date)");//
+	        System.out.println("07. Buy Voucher");//
 	        System.out.println();
 	        System.out.println("\tMY MUSIC");
 	        System.out.println(" ------------------------");
-	        System.out.println("07. Make new MyList");
-	        System.out.println("08. Print MyList Music");
-	        System.out.println("09. Print Recent Music");
-	        System.out.println("10. Pirnt My Favorite");
-	        System.out.println("11. Check My Voucher");
-	        System.out.println("12. Pirnt Purchased Music");
+	        System.out.println("08. Make new MyList");//
+	        System.out.println("09. Print MyList Music");
+	        System.out.println("10. Print Recent Music");
+	        System.out.println("11. Pirnt My Favorite");
+	        System.out.println("12. Check My Voucher");//
+	        
 	        System.out.println(" ------------------------");
 			System.out.println("0 : Back to main menu ");
 			System.out.println(" ------------------------");
@@ -54,6 +74,7 @@ public class Music {
 				break;
 				
 			case 1:
+				//만들 함수 music_id를 넣으면 해당하는테이블이 출력 
 				
 				break;
 				
@@ -66,13 +87,32 @@ public class Music {
 				break;
 				
 			case 4:
-				
+				listenMusic();
 				break;
 				
 			case 5:
 				addMusic();
 				break;
+			
+			case 6:
+				modifyWrongInformation();
+				break;
 				
+			case 7:
+				buyVoucher();
+				break;
+				
+			case 8:
+				makeNewMyList();
+				break;
+				
+			case 9:
+				printMyList(true);
+				break;
+				
+			case 12:
+				checkVoucher();
+				break;
 				
 			default :
 				System.out.println("Please select again!");
@@ -80,6 +120,164 @@ public class Music {
 			
 			}
 		}
+	}
+	
+	void listenMusic() {
+		
+	}
+	
+	
+	void printOneMusicInformation() throws SQLException {
+		ResultSet rt;
+		
+		pstmt = DBA.con.prepareStatement("select * from MusicUser where `id`=?");
+		pstmt.setInt(1, Main.user_id);
+		rt = pstmt.executeQuery();
+		
+		while(rt.next()) {
+			
+			
+			
+			break;
+		}
+	}
+	
+	
+	void printMyList(boolean printMusic) throws SQLException {
+		ResultSet rt;
+		
+		pstmt = DBA.con.prepareStatement("select * from MusicUser where `id`=?");
+		pstmt.setInt(1, Main.user_id);
+		rt = pstmt.executeQuery();
+		
+		System.out.println("\tMyList");
+        System.out.println(" ------------------------");
+        
+		while(rt.next()) {
+			String myList = rt.getString("myList");
+			
+			if(myList == null) {
+				System.out.println("There is no myList");
+			}else {
+				String[] words = myList.split(",");
+		         
+		        for (String word : words ){
+		            System.out.println(word);
+		        }
+		        
+		        if(printMusic == false) {
+		        	System.out.println();
+		        	return;
+		        }
+
+				//유저한테 마이리스트 입력받음
+				//마이리스트를 이용하여 해당 마이리스트의 이름과 유저 이름 을 가진 음악들 출력 
+			}
+			break;
+		}
+		
+		System.out.println();
+	}
+	
+	void makeNewMyList() throws SQLException, IOException {
+		BufferedReader rs = new BufferedReader(new InputStreamReader(System.in));
+		String new_myList;
+		ResultSet rt;
+		
+		printMyList(false);
+		
+		System.out.println("Input new MyList name (You can't use ',' symbol) : ");
+		
+		new_myList = rs.readLine();
+		
+		pstmt = DBA.con.prepareStatement("select * from MusicUser where `id`=?");
+		pstmt.setInt(1, Main.user_id);
+		rt = pstmt.executeQuery();
+		
+		while(rt.next()) {
+			
+			String myList = rt.getString("myList");
+			
+			if(myList == null) {
+				break;
+			}else {
+				new_myList = new_myList + "," + myList;
+			}
+			break;
+		}
+		
+		pstmt.executeUpdate("UPDATE MusicUser set myList='"+new_myList+"' where id = "+ Main.user_id);
+		
+		printMyList(false);
+		
+	}
+	
+	
+	
+	void checkVoucher() throws Exception {
+		ResultSet rt;
+		
+		
+		pstmt = DBA.con.prepareStatement("select * from MusicUser where `id`=?");
+		pstmt.setInt(1, Main.user_id);
+		rt = pstmt.executeQuery();
+		
+		
+		while(rt.next()) {
+			String voucher = rt.getString("Voucher");
+			if(voucher != null) {
+				System.out.println("You are using a voucher : "+voucher);
+			}else {
+				System.out.println("Please buy a voucher");
+			}
+			break;
+		}
+	}
+	
+	
+	void buyVoucher() throws Exception{
+		
+		BufferedReader rs = new BufferedReader(new InputStreamReader(System.in));
+		ResultSet rt;
+		
+		pstmt = DBA.con.prepareStatement("select * from MusicUser where `id`=?");
+		pstmt.setInt(1, Main.user_id);
+		rt = pstmt.executeQuery();
+		
+		
+		while(rt.next()) {
+			String voucher = rt.getString("Voucher");
+			
+			if(voucher != null) {
+				System.out.println("You are already using a voucher : "+voucher);
+			}
+				
+				System.out.println("\tVoucher");
+		        System.out.println(" ------------------------");
+		        System.out.println("1) Unlimited listening					Month :  7,500won");
+		        System.out.println("2) Unlimited listening + Store in smartphone		Month : 10,000won");
+		        
+		        menuOption = Integer.parseInt(rs.readLine());
+		        
+		        switch(menuOption) {
+				
+				case 1:
+					pstmt.executeUpdate("UPDATE MusicUser set Voucher=\"Unlimited listening\" where id = "+Main.user_id);
+					break;
+					
+				case 2:
+					pstmt.executeUpdate("UPDATE MusicUser set Voucher='Unlimited listening + Store in smartphone' where id = "+Main.user_id+";");
+					break;
+					
+				default :
+					System.out.println("Please select again!");
+					break;
+		        }
+		        break;
+		}
+		
+        
+        
 	}
 	
 	
@@ -157,6 +355,98 @@ public class Music {
 		pstmt.executeUpdate();
 		
 		System.out.println("\nAdd music success ! ");
+	}
+	
+	void modifyWrongInformation() throws NumberFormatException, IOException, SQLException {
+		BufferedReader rs = new BufferedReader(new InputStreamReader(System.in));
+		int music_id;
+		int menuOption;
+		ResultSet rt;
+		
+		pirntAllMusicList();
+		System.out.println("\tEnter the music id of the wrong information : ");
+		
+		music_id = Integer.parseInt(rs.readLine());
+		
+		System.out.println("\tSelect information category");
+        System.out.println(" ------------------------");
+        System.out.println(" 1. Music title");
+        System.out.println(" 2. Artist name");
+        System.out.println(" 3. Album name");
+        System.out.println(" 4. Genre");
+        System.out.println(" 5. Lyrics");
+        System.out.println(" 6. Release Date");
+        System.out.println(" ------------------------");
+        
+        menuOption = Integer.parseInt(rs.readLine());
+        
+
+			
+			switch(menuOption) {
+	        
+	        case 1:
+	        	
+	        	System.out.println("Enter the correct information : ");
+	        	String title = rs.readLine();
+	        	pstmt.executeUpdate("UPDATE MusicList set title=\""+title+"\" where music_id = "+ music_id);
+	        	//id넣으면 하나만 프린트 하는 함수 
+	        	break;
+	        	
+	        case 2:
+	        	System.out.println("Enter the correct information : ");
+	        	String Artist = rs.readLine();
+	        	pstmt.executeUpdate("UPDATE MusicList set artist_name=\""+Artist+"\" where music_id = "+ music_id);
+	        	
+	        	break;
+	        	
+	        case 3:
+	        	System.out.println("Enter the correct information : ");
+	        	String Album = rs.readLine();
+	        	pstmt.executeUpdate("UPDATE MusicList set album_name=\""+Album+"\" where music_id = "+ music_id);
+	        	
+	        	break;
+	        	
+	        case 4:
+	        	System.out.println("Enter the correct information \nGenre (POP | HIP-HOP | R&B | ROCK/FOLK | DANCE) : ");
+	        	String Genre = rs.readLine();
+	        	pstmt.executeUpdate("UPDATE MusicList set genre=\""+Genre+"\" where music_id = "+ music_id);
+	        	
+	        	break;
+	        	
+	        case 5:
+	        	System.out.println("Enter the correct information (Q! = exit): ");
+	        	String lyrics = "";
+	        	String line;
+	        	
+	        	line = rs.readLine();
+	    		
+	    		while(!line.equals("Q!")) {
+	    			lyrics += line;
+	    			lyrics += "\n";
+	    			line = rs.readLine();
+	    		}
+	        	pstmt.executeUpdate("UPDATE MusicList set lyrics=\""+lyrics+"\" where music_id = "+ music_id);
+	        	
+	        	break;
+	        	
+	        case 6:
+	        	System.out.println("Enter the correct information");
+	        	String release_date = rs.readLine();
+	        	pstmt.executeUpdate("UPDATE MusicList set release_date=\""+release_date+"\" where music_id = "+ music_id);
+	        	
+	        	break;
+	        	
+	        default :
+				System.out.println("Please select again!");
+				break;
+	        
+	        
+	        
+	        }
+			
+        
+
+        
 	}
 	
 	
