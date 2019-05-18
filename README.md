@@ -75,7 +75,7 @@ create table temporarymailbox(mailID MEDIUMINT NOT NULL AUTO_INCREMENT,
 create table SentMailBox(mailID INT, sender INT,  title VARCHAR(30), contents VARCHAR(300));
 create table AllMailBox(mailID INT, sender INT,  title VARCHAR(30), contents VARCHAR(300), mailBoxName VARCHAR(30));
 
-##MUSIC
+## MUSIC
 
 CREATE TABLE MusicList( music_id INT(11) NOT NULL AUTO_INCREMENT, title VARCHAR(100) NULL, artist_name VARCHAR(100) NULL, album_name VARCHAR(100) NULL, release_date DATETIME NOT NULL, lyrics TEXT NULL, PRIMARY KEY(music_id), title VARCHAR(100) NULL, count INT(100) NOT NULL, genre varchar(100));
 
