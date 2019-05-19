@@ -7,9 +7,18 @@ import org.fusesource.jansi.AnsiConsole;
 import static org.fusesource.jansi.Ansi.*;
 import static org.fusesource.jansi.Ansi.Color.*;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.sql.SQLException;
+import java.util.StringTokenizer;
+
 public class Main {
 
+
+
     //start menu
+
     static int USER_LOGIN = 1;
     static int USER_ADD = 2;
     static int USER_CHANGE = 3;
@@ -20,10 +29,13 @@ public class Main {
     private static final int JISIKIN = 2;
     private static final int MAIL = 3;
     private static final int MUSIC = 4;
-    private static final int MYPAGE = 5;
-    private static final int SHOPPING = 6;
-    private static final int LOGOUT = 7;
+    private static final int SHOPPING = 5;
+    private static final int LOGOUT = 6;
     static final int LOG_IN = 99;
+
+    
+    public static int user_id;
+
     static final int LOG_OUT = 98;
     private static int userStatus = LOG_OUT;
 
@@ -43,16 +55,19 @@ public class Main {
     protected static int currentMailID = -999;
 
 
-    public static void main(String[] args) throws IOException {
+
+    public static void main(String[] args) throws Exception {
         BufferedReader rs = new BufferedReader(new InputStreamReader(System.in));
         DBA db = new DBA();
         Mail mail = new Mail();
+        Shopping shopping = new Shopping();
+        //JisikIn jisikIn = new JisikIn();
 
         if (!db.connect()) {
             System.out.println(" Connection fails ... Please try again ...");
             return;
         }
-
+        
         int menu = 0;
         int loginMenu = -999;
         while (menu != PROGRAM_EXIT) {
@@ -69,10 +84,14 @@ public class Main {
                     if (loginMenu == BLOG) {
                         //do somethings
 
-                    } else if (loginMenu == JISIKIN) {
-                        //do somethings
-                    } else if (loginMenu == MAIL) {
-                        while (mail.getMailInput() != GOTOHOME) {
+
+                    }
+                    else if(loginMenu == JISIKIN){
+                        JisikIn jisikIn = new JisikIn();
+                        jisikIn.selectMenu();
+                    }
+                    else if(loginMenu == MAIL){
+                        while(mail.getMailInput() != GOTOHOME ) {
                             mail.printMailMenu();
                             mail.setMailInput(Integer.parseInt(rs.readLine()));
 
@@ -316,29 +335,27 @@ public class Main {
                                 }
                         }
                     }
-                    else if (loginMenu == MUSIC) {
-                            //do somethings
-                        } else if (loginMenu == MYPAGE) {
-                            //do somethings
-                        } else if (loginMenu == SHOPPING) {
-                            //do somethings
-                        } else if (loginMenu == LOGOUT) {
-                            userStatus = LOG_OUT;
-                        }
 
+                    else if(loginMenu == MUSIC){
+                        //do somethings
+                    	Music music = new Music();
+                    	music.seletMenu();
                     }
-
+                    else if(loginMenu == SHOPPING){
+                      Shopping shoppingUser = new Shopping();
+                    	shopping.printShoppingMenu();
+                    }
+                    else if(loginMenu == LOGOUT){
+                        userStatus = LOG_OUT ;
+                    }
                 } else if (menu == USER_ADD) {
                     user_add(db, rs);
                 } else if (menu == USER_CHANGE) {
                     user_search(db, rs);
                 }
             }
-
             db.disconnect();
-
         }
-
 
         public static void printMenu () {
             System.out.println("\tNAVER ");
@@ -351,32 +368,32 @@ public class Main {
             System.out.println(" Select the Menu : "); //print function doesn't work in my PC, please check.
         }
 
-        public static void printLoginMenu () {
-            System.out.println("\tUser Menu ");
-            System.out.println(" ------------------------");
-            System.out.println(" 1. Blog");
-            System.out.println(" 2. JisikIn");
-            System.out.println(" 3. Mail");
-            System.out.println(" 4. Music");
-            System.out.println(" 5. My page");
-            System.out.println(" 6. Shopping");
-            System.out.println(" 7. Log-out");
-            System.out.println(" ------------------------");
-            System.out.println(" Select the Menu : ");
-        }
+    public static void printLoginMenu(){
+        System.out.println("\tUser Menu ");
+        System.out.println(" ------------------------");
+        System.out.println(" 1. Blog");
+        System.out.println(" 2. JisikIn");
+        System.out.println(" 3. Mail");
+        System.out.println(" 4. Music");
+        System.out.println(" 5. Shopping");
+        System.out.println(" 6. Log-out");
+        System.out.println(" ------------------------");
+        System.out.println(" Select the Menu : ");
+    }
 
-        public static void user_login (DBA db, BufferedReader rs) throws IOException {
-            User user = new User();
-            try {
-                System.out.println(" Please put ID (integer) and Password IN ORDER  :"); //print function doesn't work in my PC, please check.
-                StringTokenizer token = new StringTokenizer(rs.readLine(), " ");
-                user.setID(Integer.parseInt(token.nextToken()));
-                user.setPW(Integer.parseInt(token.nextToken()));
-
-                if (db.logIn(user.getID(), user.getPW())) {
-                    System.out.println(" \nWelcome" + user.getID() + ".\n ");
-                    userStatus = LOG_IN;
-                } else {
+    public static void user_login(DBA db, BufferedReader rs) throws IOException{
+        User user = new User();
+        try {
+            System.out.println(" Please put ID (integer) and Password IN ORDER  :"); //print function doesn't work in my PC, please check.
+            StringTokenizer token = new StringTokenizer(rs.readLine(), " ");
+            user.setID(Integer.parseInt(token.nextToken()));
+            user.setPW(Integer.parseInt(token.nextToken()));
+            
+            user_id = user.getID();
+            if (db.logIn(user.getID(), user.getPW())) {
+                System.out.println(" \nWelcome" + user.getID() + ".\n ");
+                userStatus = LOG_IN;
+            } else {
                     System.out.println("Wrong ID or Password, Please Try again or sign up");
                 }
             } catch (Exception e) {
@@ -445,6 +462,8 @@ public class Main {
             }
 
         }
+
+    }
 
     }
 

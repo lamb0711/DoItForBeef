@@ -6,6 +6,7 @@ import static org.fusesource.jansi.Ansi.Color.*;
 
 public class DBA {
         static int loginID = -9999;
+
         static Connection con = null;
         static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
         static final String timeZone = "?serverTimezone=UTC&useSSL=false";
@@ -13,7 +14,9 @@ public class DBA {
         //static String server = "localhost"; // MySQL 서버 주소
         //static String database = "test"; // MySQL DATABASE 이름
         static String user_name = "root"; //  MySQL 서버 아이디
-        static String password = "useruser"; // MySQL 서버 비밀번호
+
+        static String password = "jca+please"; // MySQL 서버 비밀번호
+
 
         static String url = "jdbc:mysql://localhost/test";
 
@@ -77,7 +80,9 @@ public class DBA {
     }
 
     public boolean logIn(int id, int pw) {
-        String check_query = "select * from user where `user_id`=? OR `user_name`=?;";
+
+
+        String check_query = "select * from user where `user_id`=? AND `user_pw`=?;";
 
         PreparedStatement ps = null;
         ResultSet rs;
@@ -91,7 +96,9 @@ public class DBA {
 
             if (rs.next()) {
                 checkUser = true;
+
                 loginID = id;
+
             }
         } catch (SQLException e){
 
@@ -1443,3 +1450,4 @@ public class DBA {
         return true;
     }
 }
+
