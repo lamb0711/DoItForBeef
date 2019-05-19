@@ -25,12 +25,11 @@ public class Main {
     static int PROGRAM_EXIT = 4;
 
     //log-in menu
-    private static final int BLOG = 1;
-    private static final int JISIKIN = 2;
-    private static final int MAIL = 3;
-    private static final int MUSIC = 4;
-    private static final int SHOPPING = 5;
-    private static final int LOGOUT = 6;
+    private static final int JISIKIN = 1;
+    private static final int MAIL = 2;
+    private static final int MUSIC = 3;
+    private static final int SHOPPING = 4;
+    private static final int LOGOUT = 5;
     static final int LOG_IN = 99;
 
     
@@ -61,7 +60,6 @@ public class Main {
         DBA db = new DBA();
         Mail mail = new Mail();
         Shopping shopping = new Shopping();
-        //JisikIn jisikIn = new JisikIn();
 
         if (!db.connect()) {
             System.out.println(" Connection fails ... Please try again ...");
@@ -81,11 +79,7 @@ public class Main {
                     printLoginMenu();
                     loginMenu = Integer.parseInt(rs.readLine());
 
-                    if (loginMenu == BLOG) {
-                        //do somethings
-
-
-                    } else if (loginMenu == JISIKIN) {
+                    if (loginMenu == JISIKIN) {
                         JisikIn jisikIn = new JisikIn();
                         jisikIn.selectMenu();
                     } else if (loginMenu == MAIL) {
@@ -333,11 +327,11 @@ public class Main {
                     } else if (loginMenu == LOGOUT) {
                         userStatus = LOG_OUT;
                     }
-                } else if (menu == USER_ADD) {
-                    user_add(db, rs);
-                } else if (menu == USER_CHANGE) {
-                    user_search(db, rs);
                 }
+            } else if (menu == USER_ADD) {
+                user_add(db, rs);
+            } else if (menu == USER_CHANGE) {
+                user_search(db, rs);
             }
             db.disconnect();
         }
@@ -357,12 +351,11 @@ public class Main {
     public static void printLoginMenu(){
         System.out.println("\tUser Menu ");
         System.out.println(" ------------------------");
-        System.out.println(" 1. Blog");
-        System.out.println(" 2. JisikIn");
-        System.out.println(" 3. Mail");
-        System.out.println(" 4. Music");
-        System.out.println(" 5. Shopping");
-        System.out.println(" 6. Log-out");
+        System.out.println(" 1. JisikIn");
+        System.out.println(" 2. Mail");
+        System.out.println(" 3. Music");
+        System.out.println(" 4. Shopping");
+        System.out.println(" 5. Log-out");
         System.out.println(" ------------------------");
         System.out.println(" Select the Menu : ");
     }
@@ -376,8 +369,9 @@ public class Main {
             user.setPW(Integer.parseInt(token.nextToken()));
             
             user_id = user.getID();
+
             if (db.logIn(user.getID(), user.getPW())) {
-                System.out.println(" \nWelcome" + user.getID() + ".\n ");
+                System.out.println(" \nWelcome " + user.getName() + ".\n ");
                 userStatus = LOG_IN;
             } else {
                     System.out.println("Wrong ID or Password, Please Try again or sign up");
