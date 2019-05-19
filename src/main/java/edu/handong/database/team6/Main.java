@@ -6,23 +6,46 @@ import java.util.StringTokenizer;
 
 public class Main {
 
+    //start menu
     static int USER_LOGIN = 1;
     static int USER_ADD = 2;
     static int USER_CHANGE = 3;
     static int PROGRAM_EXIT = 4;
+
+    //log-in menu
     private static final int BLOG = 1;
     private static final int JISIKIN = 2;
     private static final int MAIL = 3;
     private static final int MUSIC = 4;
     private static final int MYPAGE = 5;
     private static final int SHOPPING = 6;
+    private static final int LOGOUT = 7;
     static final int LOG_IN = 99;
-    private  static int userStatus = LOG_IN -1;
+
+    
     public static int user_id;
+
+    static final int LOG_OUT = 98;
+    private  static int userStatus = LOG_OUT;
+
+    //mail menu
+    private static final int WRITEMAIL = 0;
+    private static final int AlLMAILS = 1;
+    private static final int MAILBOX = 2;
+    private static final int SENTMAILBOX = 3;
+    private static final int TEMPORARYMAILBOX = 4;
+    private static final int TOMEMAILBOX = 5;
+    private static final int TRASHCAN = 6;
+    private static final int SPAMMAILBOX = 7;
+    private static final int GOTOMAILHOME = 8;
+    private static final int GOTOHOME = 9;
+
+
 
     public static void main(String[] args) throws Exception {
         BufferedReader rs = new BufferedReader(new InputStreamReader(System.in));
         DBA db = new DBA();
+        Mail mail = new Mail();
 
         if (!db.connect()) {
             System.out.println(" Connection fails ... Please try again ...");
@@ -30,7 +53,7 @@ public class Main {
         }
         
         int menu = 0;
-        int loginMenu = 0;
+        int loginMenu = -999;
         while(menu != PROGRAM_EXIT) {
             printMenu();
 
@@ -41,14 +64,60 @@ public class Main {
                 if(userStatus == LOG_IN){
                     printLoginMenu();
                     loginMenu = Integer.parseInt(rs.readLine());
+
                     if(loginMenu == BLOG){
                         //do somethings
+
                     }
                     else if(loginMenu == JISIKIN){
                         //do somethings
                     }
                     else if(loginMenu == MAIL){
-                        //do somethings
+                        while(mail.getMailInput() != GOTOHOME ) {
+                            mail.printMailMenu();
+                            mail.setMailInput(Integer.parseInt(rs.readLine()));
+
+                            if(mail.getMailInput() == WRITEMAIL){
+                                mail.writeMail(db, rs);
+                            }
+                            else if(mail.getMailInput() == AlLMAILS){
+                                //code
+                                mail.printAllMails(db, rs);
+
+                            }
+                            else if(mail.getMailInput() == MAILBOX){
+                                //code
+                                mail.printMails(db, rs);
+                            }
+                            else if(mail.getMailInput() == SENTMAILBOX){
+                                //code
+                                mail.printSentMails(db, rs);
+                            }
+                            else if(mail.getMailInput() == TEMPORARYMAILBOX){
+                                //code
+                                mail.printTemporaryMails(db, rs);
+                            }
+                            else if(mail.getMailInput() == TOMEMAILBOX){
+                                //code
+                                mail.printToMeMails(db, rs);
+                            }
+                            else if(mail.getMailInput() == TRASHCAN){
+                                //code
+                                mail.printTrashCan(db, rs);
+                            }
+                            else if(mail.getMailInput() == SPAMMAILBOX){
+                                //code
+                                mail.printSpamMails(db, rs);
+                            }
+                            else if(mail.getMailInput() == GOTOMAILHOME){
+                                continue;
+                            }
+                            else if(mail.getMailInput() == GOTOHOME){
+                                continue;
+                            }
+
+                        }
+
                     }
                     else if(loginMenu == MUSIC){
                         //do somethings
@@ -60,6 +129,9 @@ public class Main {
                     }
                     else if(loginMenu == SHOPPING){
                         //do somethings
+                    }
+                    else if(loginMenu == LOGOUT){
+                        userStatus = LOG_OUT ;
                     }
 
                 }
@@ -93,6 +165,7 @@ public class Main {
         System.out.println(" 4. Music");
         System.out.println(" 5. My page");
         System.out.println(" 6. Shopping");
+        System.out.println(" 7. Log-out");
         System.out.println(" ------------------------");
         System.out.println(" Select the Menu : ");
     }
