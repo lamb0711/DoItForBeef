@@ -21,6 +21,10 @@ public class Main {
     private static final int SHOPPING = 6;
     private static final int LOGOUT = 7;
     static final int LOG_IN = 99;
+
+    
+    public static int user_id;
+
     static final int LOG_OUT = 98;
     private  static int userStatus = LOG_OUT;
 
@@ -37,6 +41,7 @@ public class Main {
     private static final int GOTOHOME = 9;
 
 
+
     public static void main(String[] args) throws Exception {
         BufferedReader rs = new BufferedReader(new InputStreamReader(System.in));
         DBA db = new DBA();
@@ -46,7 +51,7 @@ public class Main {
             System.out.println(" Connection fails ... Please try again ...");
             return ;
         }
-
+        
         int menu = 0;
         int loginMenu = -999;
         while(menu != PROGRAM_EXIT) {
@@ -172,7 +177,8 @@ public class Main {
             StringTokenizer token = new StringTokenizer(rs.readLine(), " ");
             user.setID(Integer.parseInt(token.nextToken()));
             user.setPW(Integer.parseInt(token.nextToken()));
-
+            
+            user_id = user.getID();
             if (db.logIn(user.getID(), user.getPW())) {
                 System.out.println(" \nWelcome" + user.getID() + ".\n ");
                 userStatus = LOG_IN;
