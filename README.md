@@ -8,50 +8,45 @@ USER(4)
 4. withdrawal(IDEA)
 5.
 
-Mail(8/29)
-1. Write mail in TempMailBox(done)
-2. Send to user(done)
-3. check mailsbox (done) -marking, delete, move to spam mail, pass
-4. check tome mailbox(done) -marking, delete, move to spam mail
-5. check trash can(done) -marking, delete, move to spam mail
-6. check spam mail box(done) -marking, delete, move to spam mail
-7. check sent mail box(done) -marking, delete, move to spam mail
-8. check temporary mail box(done) -marking, delete, move to spam mail
-9. classify mails to mail Box, to-me mail Box, spam mail box
-10. add my mail box
-11. modify my mail box name
-12. delete my mail box name
-13. delete specific mail by sender name
-14. check marked mail
-15. mark mail as important
-16. register spam id
-17. search in mail by sender
-18. search in mail by date
-19. move specific mail to trash can
-20. pass mail
-21. change mail status
-22. modify specific mail in to-me Mail Box
-23. search in mail by contents
-24. check unread mail
-25. check read mail
-26. sort by sender
-27. sort by date
-28. sort by title
-29. move specific mail to spam mail
+Mail(39/50)
+1. $Write mail in TempMailBox(done1)
+2. $Send to user(done2)
+3. $check allmailbox (done3) -select (done4), reply(done5), pass(done6), (un)mark(done7), delete(done8), spam(done 34)$
+4. $check mailbox (done29) -select (done13), reply(done12), pass(done11), (un)mark(done10), delete(done9), spam(done 35)$
+5. $check tome mailbox(done30) -select (done14), pass(done15), (un)mark(done16), delete(done17), spam(done 36)$
+6. $check trash can(done31) -select (done18), delete(done19), clean(39)$
+7. check spam mail box(done32) -select (done21), delete(done20)$
+8. $check sent mail box(done33) -select (done22), pass(done23), (un)mark(done24), delete(done25)$
+9. $check temporary mail box(done26) -select (done27), delete(done28), modify(37), send(38)$
 
+------39------
+10. delete specific mail by sender name
+11. check marked mail(after star)
+12. register spam id(additional)
+13. search in mail by sender(additional)
+14. search in mail by date(after develop relation)
+15. change mail status(alter table [tablename] add status INT)
+16. search in mail by contents(additional)
+17. check unread mail (after status)
+18. check read mail (after status)
+19. sort by sender
+20. sort by date
+21. sort by title
 
 Table
-create table user(user_id INT, user_name VARCHAR(15), user_pw INT, user_phone INT, user_email VARCHAR(40));
-create table Mailbox(mailID INT, sender INT, title VARCHAR(30), contents VARCHAR(300));
-create table ToMeMailbox(mailID INT, title VARCHAR(30), contents VARCHAR(300));
-create table SpamMailBox(mailID INT, sender INT,  title VARCHAR(30), contents VARCHAR(300));
-create table MyMailBox(mailID INT, sender INT,  title VARCHAR(30), contents VARCHAR(300), mailBoxName VARCHAR(30));
-create table TrashCan(mailID INT, sender INT,  title VARCHAR(30), contents VARCHAR(300));
-create table temporarymailbox(mailID MEDIUMINT NOT NULL AUTO_INCREMENT,
+*Star default 0
+1.create table user(user_id INT, user_name VARCHAR(15), user_pw INT, user_phone INT, user_email VARCHAR(40));
+2.create table Mailbox(mailID INT, sender INT, title VARCHAR(30), contents VARCHAR(300));
+3.create table ToMeMailbox(mailID INT, title VARCHAR(30), contents VARCHAR(300));
+4.create table SpamMailBox(mailID INT, sender INT,  title VARCHAR(30), contents VARCHAR(300));
+5.create table MyMailBox(mailID INT, sender INT,  title VARCHAR(30), contents VARCHAR(300), mailBoxName VARCHAR(30));
+6.create table TrashCan(mailID INT, sender INT,  title VARCHAR(30), contents VARCHAR(300));
+7.create table temporarymailbox(mailID MEDIUMINT NOT NULL AUTO_INCREMENT,
                                sender INT,
                                receiver INT,
                                title VARCHAR(30),
                                contets VARCHAR(300),
                                PRIMARY KEY(mailID));
-create table SentMailBox(mailID INT, sender INT,  title VARCHAR(30), contents VARCHAR(300));
-create table AllMailBox(mailID INT, sender INT,  title VARCHAR(30), contents VARCHAR(300), mailBoxName VARCHAR(30));
+8.create table SentMailBox(mailID INT, sender INT,  title VARCHAR(30), contents VARCHAR(300));
+9.create table AllMailBox(mailID INT, sender INT,  title VARCHAR(30), contents VARCHAR(300), mailBoxName VARCHAR(30));
+10. create table StarMail(MailID INT, mailboxname VARCHAR(30));
