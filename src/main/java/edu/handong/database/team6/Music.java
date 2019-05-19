@@ -134,7 +134,7 @@ public class Music {
 	void printTop10() throws SQLException {
 		ResultSet rt;
 
-		pstmt = DBA.con.prepareStatement("select * from MusicList order by count;");
+		pstmt = DBA.con.prepareStatement("select * from MusicList order by count desc;");
 		rt = pstmt.executeQuery();
 
 		while(rt.next()) {
@@ -240,19 +240,20 @@ public class Music {
 			String myList = rs.readLine();
 			//새로운 마이리스트 추가 
 
-			pstmt = DBA.con.prepareStatement("select * from MyList where id=? and music_id=? and myList_name=?;");
-			pstmt.setInt(1, music_id);
-			pstmt.setInt(2, Main.user_id);
+			pstmt = DBA.con.prepareStatement("select * from MyList where `id`=? and `music_id`=? and `myList_name`=?;");
+			pstmt.setInt(1, Main.user_id);
+			pstmt.setInt(2, music_id);
 			pstmt.setString(3, myList);
 			rt = pstmt.executeQuery();
 
-			if(!rt.next()) {
+			if(rt.next() == false) {
+				System.out.println("insert");
 				pstmt = DBA.con.prepareStatement("insert into MyList(music_id,id,myList_name) values(?,?,?);");
 				pstmt.setInt(1, music_id);
 				pstmt.setInt(2, Main.user_id);
 				pstmt.setString(3, myList);
 				pstmt.executeUpdate();
-			}else {
+			}else if(rt.next() == true){
 				System.out.println("It already exists!");
 			}
 		}
@@ -294,7 +295,6 @@ public class Music {
 			}
 
 		}else {
-			System.out.println("It already exists!");
 		}
 
 	}
