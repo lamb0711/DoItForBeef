@@ -8,7 +8,7 @@
   
   - Import the exported database in this repository, "DoItForBeef.sql" using following code:
 ~~~  
-    mysql -u root -p DB < DoItForBeef.sql
+    mysql -u root -p DB < DoitforBeef.sql
 ~~~    
   
   - __Remember__, you need to make database in your local mysql server first. 
@@ -22,6 +22,10 @@
   - Open the current project, __change the password of your local mysql server__ on line 18 in __DBA.java__ and check whether your imported database name is same as the value stored in url on line 21 in __DBA.java__. It should be
 
 ~~~Java
+    static String password = YOUR_LOCAL_SERVER_PW; 
+    
+    ...
+    
     static String url = "jdbc:mysql://localhost/DB";
 ~~~
 
