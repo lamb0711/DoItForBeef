@@ -3,6 +3,7 @@ import java.sql.*;
 
 public class DBA {
         static int loginID = -9999;
+
         static Connection con = null;
         static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
         static final String timeZone = "?serverTimezone=UTC&useSSL=false";
@@ -10,7 +11,9 @@ public class DBA {
         //static String server = "localhost"; // MySQL 서버 주소
         //static String database = "test"; // MySQL DATABASE 이름
         static String user_name = "root"; //  MySQL 서버 아이디
+
         static String password = "useruser"; // MySQL 서버 비밀번호
+
 
         static String url = "jdbc:mysql://localhost/test";
 
@@ -74,6 +77,8 @@ public class DBA {
     }
 
     public boolean logIn(int id, int pw) {
+
+
         String check_query = "select * from user where `id`=? OR `name`=?;";
 
         PreparedStatement ps = null;
@@ -88,7 +93,9 @@ public class DBA {
 
             if (rs.next()) {
                 checkUser = true;
+
                 loginID = id;
+
             }
         } catch (SQLException e){
 
@@ -401,3 +408,4 @@ public class DBA {
     }
 
 }
+

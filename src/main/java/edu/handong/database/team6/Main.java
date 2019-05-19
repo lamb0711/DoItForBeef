@@ -4,9 +4,18 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.sql.SQLException;
+import java.util.StringTokenizer;
+
 public class Main {
 
+
+
     //start menu
+
     static int USER_LOGIN = 1;
     static int USER_ADD = 2;
     static int USER_CHANGE = 3;
@@ -46,6 +55,7 @@ public class Main {
         BufferedReader rs = new BufferedReader(new InputStreamReader(System.in));
         DBA db = new DBA();
         Mail mail = new Mail();
+        Shopping shopping = new Shopping();
 
         if (!db.connect()) {
             System.out.println(" Connection fails ... Please try again ...");
@@ -128,7 +138,8 @@ public class Main {
                         //do somethings
                     }
                     else if(loginMenu == SHOPPING){
-                        //do somethings
+                      Shopping shoppingUser = new Shopping();
+                    	shopping.printShoppingMenu();
                     }
                     else if(loginMenu == LOGOUT){
                         userStatus = LOG_OUT ;
@@ -249,4 +260,5 @@ public class Main {
 
     }
 
+    }
 }
