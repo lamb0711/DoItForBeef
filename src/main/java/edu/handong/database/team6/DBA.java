@@ -1061,13 +1061,13 @@ public class DBA {
                 //System.out.println(rs.getInt(1));
                 insert.setInt(2, rs.getInt(2));
                 //System.out.println(rs.getInt(2));
-                insert.setInt(3, rs.getInt(3));
+                insert.setInt(5, rs.getInt(3));
                 //System.out.println(rs.getInt(3));
                 //System.out.println(rs.getString(4));
-                insert.setString(4, rs.getString(4));
+                insert.setString(3, rs.getString(4));
                 //System.out.println(rs.getString(4));
-                insert.setString(5, rs.getString(5));
-                insert.setString(6, rs.getString(6));
+                insert.setString(4, rs.getString(5));
+                insert.setInt(6, rs.getInt(6));
                 //System.out.println(rs.getString(5));
                 insert.executeUpdate();
                 delete = con.prepareStatement(deleteQuery);

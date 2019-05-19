@@ -371,7 +371,7 @@ public class Main {
             user_id = user.getID();
 
             if (db.logIn(user.getID(), user.getPW())) {
-                System.out.println(" \nWelcome " + user.getName() + ".\n ");
+                System.out.println(" \nWelcome " + user_id + ".\n ");
                 userStatus = LOG_IN;
             } else {
                     System.out.println("Wrong ID or Password, Please Try again or sign up");
