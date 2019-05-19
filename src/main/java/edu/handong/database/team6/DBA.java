@@ -2,6 +2,7 @@ package edu.handong.database.team6;
 import java.sql.*;
 
 public class DBA {
+        static int loginID = -9999;
 
         static Connection con = null;
         static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
@@ -10,7 +11,9 @@ public class DBA {
         //static String server = "localhost"; // MySQL 서버 주소
         //static String database = "test"; // MySQL DATABASE 이름
         static String user_name = "root"; //  MySQL 서버 아이디
-        static String password = "root"; // MySQL 서버 비밀번호
+
+        static String password = "useruser"; // MySQL 서버 비밀번호
+
 
         static String url = "jdbc:mysql://localhost/test";
 
@@ -74,7 +77,9 @@ public class DBA {
     }
 
     public boolean logIn(int id, int pw) {
-        String check_query = "select * from user where `user_id`=? OR `user_name`=?;";
+
+
+        String check_query = "select * from user where `id`=? OR `name`=?;";
 
         PreparedStatement ps = null;
         ResultSet rs;
@@ -88,6 +93,9 @@ public class DBA {
 
             if (rs.next()) {
                 checkUser = true;
+
+                loginID = id;
+
             }
         } catch (SQLException e){
 
@@ -163,7 +171,241 @@ public class DBA {
         return confirm;
 
     }
-  
-    
-    
+
+
+//Mail
+
+    public boolean write(int recv, String title, String contents) {
+        int id = 0;
+            String check_query = "insert into TemporaryMailBox value(?,?,?,?,?);";
+        PreparedStatement ps = null;
+        try {
+            ps = con.prepareStatement(check_query);
+            ps.setString(1, null);
+            ps.setInt(2, loginID);
+            ps.setInt(3, recv);
+            ps.setString(4, title);
+            ps.setString(5, contents);
+            ps.executeUpdate();
+
+        } catch (SQLException e){
+                return false;
+        }
+
+        return true;
+    }
+
+    public boolean send() {
+        //int id=0;
+        String insertQuery = "insert into sentmailbox value(?, ?, ?, ?, ?);";
+        String selectSendQuery = "select * from temporarymailbox order by mailID desc limit 1;";
+        String deleteQuery = "delete from temporarymailbox where mailID IN ( select mailID from sentmailbox);";
+        //String selectDeleteQuery = "( select mailID from sentmailbox);";
+
+        PreparedStatement selectSend = null;
+        PreparedStatement insert = null;
+        PreparedStatement selectDelete = null;
+        PreparedStatement delete = null;
+        ResultSet rs;
+        //System.out.println("please");
+
+        try {
+            selectSend = con.prepareStatement(selectSendQuery);
+            rs = selectSend.executeQuery();
+            if(rs.next()) {
+                insert = con.prepareStatement(insertQuery);
+                insert.setInt(1, rs.getInt(1));
+                //System.out.println(rs.getInt(1));
+                insert.setInt(2, rs.getInt(2));
+                //System.out.println(rs.getInt(2));
+                insert.setInt(3, rs.getInt(3));
+                //System.out.println(rs.getInt(3));
+                //System.out.println(rs.getString(4));
+                insert.setString(4, rs.getString(4));
+                //System.out.println(rs.getString(4));
+                insert.setString(5, rs.getString(5));
+                //System.out.println(rs.getString(5));
+                insert.executeUpdate();
+            }
+
+                delete = con.prepareStatement(deleteQuery);
+                delete.executeUpdate();
+
+        } catch (SQLException e){
+            System.out.println("Exception");
+            return false;
+        }
+
+        return true;
+    }
+
+    public boolean getAllMails(){
+        String check_query = "select mailID, sender, title from Allmailbox;";
+
+        PreparedStatement ps = null;
+        ResultSet rs;
+        boolean gotIt = false;
+
+        try {
+            ps = con.prepareStatement(check_query);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                gotIt= true;
+                System.out.println("MailID :"+ rs.getInt(1)
+                                    + "   Sender : " + rs.getInt(2)
+                                    +"   Title : " + rs.getString(3));
+            }
+        } catch (SQLException e){
+
+        }
+
+        return gotIt;
+    }
+
+    public boolean getMails(){
+        String check_query = "select mailID, sender, title from mailbox;";
+
+        PreparedStatement ps = null;
+        ResultSet rs;
+        boolean gotIt = false;
+
+        try {
+            ps = con.prepareStatement(check_query);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                gotIt= true;
+                System.out.println("MailID :"+ rs.getInt(1)
+                        + "   Sender : " + rs.getInt(2)
+                        +"   Title : " + rs.getString(3));
+            }
+        } catch (SQLException e){
+
+        }
+
+        return gotIt;
+    }
+
+    public boolean getSentMails(){
+        String check_query = "select mailID, sender, title from sentmailbox;";
+
+        PreparedStatement ps = null;
+        ResultSet rs;
+        boolean gotIt = false;
+
+        try {
+            ps = con.prepareStatement(check_query);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                gotIt= true;
+                System.out.println("MailID :"+ rs.getInt(1)
+                        + "   Sender : " + rs.getInt(2)
+                        +"   Title : " + rs.getString(3));
+            }
+        } catch (SQLException e){
+
+        }
+
+        return gotIt;
+    }
+
+    public boolean getSpamMails(){
+        String check_query = "select mailID, sender, title from spammailbox;";
+
+        PreparedStatement ps = null;
+        ResultSet rs;
+        boolean gotIt = false;
+
+        try {
+            ps = con.prepareStatement(check_query);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                gotIt= true;
+                System.out.println("MailID :"+ rs.getInt(1)
+                        + "   Sender : " + rs.getInt(2)
+                        +"   Title : " + rs.getString(3));
+            }
+        } catch (SQLException e){
+
+        }
+
+        return gotIt;
+    }
+
+    public boolean getTemporaryMails(){
+        String check_query = "select mailID, sender, title from temporarymailbox;";
+
+        PreparedStatement ps = null;
+        ResultSet rs;
+        boolean gotIt = false;
+
+        try {
+            ps = con.prepareStatement(check_query);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                gotIt= true;
+                System.out.println("MailID :"+ rs.getInt(1)
+                        + "   Sender : " + rs.getInt(2)
+                        +"   Title : " + rs.getString(3));
+            }
+        } catch (SQLException e){
+
+        }
+
+        return gotIt;
+    }
+
+    public boolean getToMeMails(){
+        String check_query = "select mailID, sender, title from tomemailbox;";
+
+        PreparedStatement ps = null;
+        ResultSet rs;
+        boolean gotIt = false;
+
+        try {
+            ps = con.prepareStatement(check_query);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                gotIt= true;
+                System.out.println("MailID :"+ rs.getInt(1)
+                        + "   Sender : " + rs.getInt(2)
+                        +"   Title : " + rs.getString(3));
+            }
+        } catch (SQLException e){
+
+        }
+
+        return gotIt;
+    }
+
+    public boolean getTrashCan(){
+        String check_query = "select mailID, sender, title from trashcan;";
+
+        PreparedStatement ps = null;
+        ResultSet rs;
+        boolean gotIt = false;
+
+        try {
+            ps = con.prepareStatement(check_query);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                gotIt= true;
+                System.out.println("MailID :"+ rs.getInt(1)
+                        + "   Sender : " + rs.getInt(2)
+                        +"   Title : " + rs.getString(3));
+            }
+        } catch (SQLException e){
+
+        }
+
+        return gotIt;
+    }
+
 }
+

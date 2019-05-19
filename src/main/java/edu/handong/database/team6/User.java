@@ -1,5 +1,4 @@
 package edu.handong.database.team6;
-
 public class User {
 
     private int id;
@@ -63,4 +62,6 @@ public class User {
 
     public User() {
     }
+
 }
+
