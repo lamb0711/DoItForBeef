@@ -12,7 +12,7 @@ public class DBA {
         //static String database = "test"; // MySQL DATABASE 이름
         static String user_name = "root"; //  MySQL 서버 아이디
 
-        static String password = "useruser"; // MySQL 서버 비밀번호
+        static String password = "jca+please"; // MySQL 서버 비밀번호
 
 
         static String url = "jdbc:mysql://localhost/test";
@@ -79,7 +79,7 @@ public class DBA {
     public boolean logIn(int id, int pw) {
 
 
-        String check_query = "select * from user where `id`=? OR `name`=?;";
+        String check_query = "select * from user where `user_id`=? AND `user_pw`=?;";
 
         PreparedStatement ps = null;
         ResultSet rs;

@@ -26,9 +26,8 @@ public class Main {
     private static final int JISIKIN = 2;
     private static final int MAIL = 3;
     private static final int MUSIC = 4;
-    private static final int MYPAGE = 5;
-    private static final int SHOPPING = 6;
-    private static final int LOGOUT = 7;
+    private static final int SHOPPING = 5;
+    private static final int LOGOUT = 6;
     static final int LOG_IN = 99;
 
     
@@ -56,6 +55,7 @@ public class Main {
         DBA db = new DBA();
         Mail mail = new Mail();
         Shopping shopping = new Shopping();
+        //JisikIn jisikIn = new JisikIn();
 
         if (!db.connect()) {
             System.out.println(" Connection fails ... Please try again ...");
@@ -80,7 +80,9 @@ public class Main {
 
                     }
                     else if(loginMenu == JISIKIN){
-                        //do somethings
+                        JisikIn jisikIn = new JisikIn();
+                        jisikIn.selectMenu();
+
                     }
                     else if(loginMenu == MAIL){
                         while(mail.getMailInput() != GOTOHOME ) {
@@ -134,9 +136,6 @@ public class Main {
                     	Music music = new Music();
                     	music.seletMenu();
                     }
-                    else if(loginMenu == MYPAGE){
-                        //do somethings
-                    }
                     else if(loginMenu == SHOPPING){
                       Shopping shoppingUser = new Shopping();
                     	shopping.printShoppingMenu();
@@ -174,9 +173,8 @@ public class Main {
         System.out.println(" 2. JisikIn");
         System.out.println(" 3. Mail");
         System.out.println(" 4. Music");
-        System.out.println(" 5. My page");
-        System.out.println(" 6. Shopping");
-        System.out.println(" 7. Log-out");
+        System.out.println(" 5. Shopping");
+        System.out.println(" 6. Log-out");
         System.out.println(" ------------------------");
         System.out.println(" Select the Menu : ");
     }
@@ -261,4 +259,3 @@ public class Main {
     }
 
     }
-}
