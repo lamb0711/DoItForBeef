@@ -236,9 +236,7 @@ public class DBA {
     }
 
     public boolean getAllMails(){
-        String check_query = "select mailID, sender, title,star from Allmailbox union " +
-                             "select mailID, sender, title, star from mailbox union" +
-                             "select mailID, sender, title star from tomemailbox;";
+        String check_query = "SELECT mailID, sender, title, star FROM allmailbox;";
 
         PreparedStatement ps = null;
         ResultSet rs;
@@ -632,8 +630,8 @@ public class DBA {
     }
 
     public boolean replyInAllMailQ(int id, String title, String contents) {
-        String check_query = "insert into TemporaryMailBox value(?,?,?,?,?);";
-        String select_query = "select sender, receiver from Allmailbox where mailid = ?";
+        String check_query = "insert into TemporaryMailBox value(?,?,?,?,?,0);";
+        String select_query = "select sender, receiver from Allmailbox where mailid = ?;";
 
         ResultSet rs;
         PreparedStatement ps = null;
@@ -659,7 +657,7 @@ public class DBA {
     }
 
     public boolean replyInMailQ(int id, String title, String contents) {
-        String check_query = "insert into TemporaryMailBox value(?,?,?,?,?);";
+        String check_query = "insert into TemporaryMailBox values(?,?,?,?,?,0);";
         String select_query = "select sender, receiver from mailbox where mailid = ?";
 
         ResultSet rs;
@@ -688,7 +686,7 @@ public class DBA {
     }
 
     public boolean passInAllMailQ(int id, int receiver) {
-        String check_query = "insert into TemporaryMailBox value(?,?,?,?,?);";
+        String check_query = "insert into TemporaryMailBox value(?,?,?,?,?,0);";
         String select_query = "select receiver, title, contents from allmailbox where mailid = ?";
 
         ResultSet rs;
@@ -717,7 +715,7 @@ public class DBA {
     }
 
     public boolean passInMailQ(int id, int receiver) {
-        String check_query = "insert into TemporaryMailBox value(?,?,?,?,?);";
+        String check_query = "insert into TemporaryMailBox value(?,?,?,?,?, 0);";
         String select_query = "select receiver, title, contents from mailbox where mailid = ?";
 
         ResultSet rs;
@@ -746,7 +744,7 @@ public class DBA {
     }
 
     public boolean passInSentMailQ(int id, int receiver) {
-        String check_query = "insert into TemporaryMailBox value(?,?,?,?,?);";
+        String check_query = "insert into TemporaryMailBox value(?,?,?,?,?,0);";
         String select_query = "select receiver, title, contents from sentmailbox where mailid = ?";
 
         ResultSet rs;
@@ -893,13 +891,13 @@ public class DBA {
                 //System.out.println(rs.getInt(1));
                 insert.setInt(2, rs.getInt(2));
                 //System.out.println(rs.getInt(2));
-                insert.setInt(3, rs.getInt(3));
+                insert.setString(3, rs.getString(3));
                 //System.out.println(rs.getInt(3));
                 //System.out.println(rs.getString(4));
                 insert.setString(4, rs.getString(4));
                 //System.out.println(rs.getString(4));
-                insert.setString(5, rs.getString(5));
-                insert.setString(6, rs.getString(6));
+                insert.setInt(5, rs.getInt(5));
+                insert.setInt(6, rs.getInt(6));
                 //System.out.println(rs.getString(5));
                 insert.executeUpdate();
                 delete = con.prepareStatement(deleteQuery);
@@ -949,13 +947,13 @@ public class DBA {
                 //System.out.println(rs.getInt(1));
                 insert.setInt(2, rs.getInt(2));
                 //System.out.println(rs.getInt(2));
-                insert.setInt(3, rs.getInt(3));
+                insert.setString(3, rs.getString(3));
                 //System.out.println(rs.getInt(3));
                 //System.out.println(rs.getString(4));
                 insert.setString(4, rs.getString(4));
                 //System.out.println(rs.getString(4));
-                insert.setString(5, rs.getString(5));
-                insert.setString(6, rs.getString(6));
+                insert.setInt(5, rs.getInt(5));
+                insert.setInt(6, rs.getInt(6));
                 //System.out.println(rs.getString(5));
                 insert.executeUpdate();
                 delete = con.prepareStatement(deleteQuery);
@@ -1002,13 +1000,13 @@ public class DBA {
                 //System.out.println(rs.getInt(1));
                 insert.setInt(2, rs.getInt(2));
                 //System.out.println(rs.getInt(2));
-                insert.setInt(3, rs.getInt(3));
+                insert.setInt(5, rs.getInt(3));
                 //System.out.println(rs.getInt(3));
                 //System.out.println(rs.getString(4));
-                insert.setString(4, rs.getString(4));
+                insert.setString(3, rs.getString(4));
                 //System.out.println(rs.getString(4));
-                insert.setString(5, rs.getString(5));
-                insert.setString(6, rs.getString(6));
+                insert.setString(4, rs.getString(5));
+                insert.setInt(6, rs.getInt(6));
                 //System.out.println(rs.getString(5));
                 insert.executeUpdate();
                 delete = con.prepareStatement(deleteQuery);
@@ -1108,7 +1106,7 @@ public class DBA {
                 //System.out.println(rs.getInt(1));
                 insert.setInt(2, rs.getInt(2));
                 //System.out.println(rs.getInt(2));
-                insert.setInt(3, rs.getInt(3));
+                insert.setString(3, rs.getString(3));
                 //System.out.println(rs.getInt(3));
                 //System.out.println(rs.getString(4));
                 insert.setString(4, rs.getString(4));
