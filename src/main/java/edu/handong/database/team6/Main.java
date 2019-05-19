@@ -67,7 +67,7 @@ public class Main {
             System.out.println(" Connection fails ... Please try again ...");
             return;
         }
-        
+
         int menu = 0;
         int loginMenu = -999;
         while (menu != PROGRAM_EXIT) {
@@ -85,13 +85,11 @@ public class Main {
                         //do somethings
 
 
-                    }
-                    else if(loginMenu == JISIKIN){
+                    } else if (loginMenu == JISIKIN) {
                         JisikIn jisikIn = new JisikIn();
                         jisikIn.selectMenu();
-                    }
-                    else if(loginMenu == MAIL){
-                        while(mail.getMailInput() != GOTOHOME ) {
+                    } else if (loginMenu == MAIL) {
+                        while (mail.getMailInput() != GOTOHOME) {
                             mail.printMailMenu();
                             mail.setMailInput(Integer.parseInt(rs.readLine()));
 
@@ -99,42 +97,42 @@ public class Main {
                                 mail.writeMail(db, rs);
                             } else if (mail.getMailInput() == AlLMAILS) {
                                 //code
-                                    mail.printAllMails(db, rs);
-                                    mail.printMailBoxMenu(db, rs, mail.getMailInput());
-                                    int AllmailInput = Integer.parseInt(rs.readLine());
-                                    if (mail.getMailInput() == AlLMAILS && 0 == AllmailInput) {
-                                        //select
-                                        System.out.println("Input Mail ID");
-                                        AllmailInput = Integer.parseInt(rs.readLine());
-                                        mail.getAllMailcontents(AllmailInput, db, rs);
-                                        //get title and get mail contents
-                                        System.out.println("1. Reply");
-                                        System.out.println("2. Pass to others");
-                                        System.out.println("3. Star mark"); //Trigger
-                                        System.out.println("4. Delete a Mail"); //Trigger
-                                        System.out.println("5. Move to Spam"); //Trigger
-                                        System.out.println("6. Go Back");
-                                        System.out.println("------------------------");
-                                        currentMailID = AllmailInput;
-                                        AllmailInput = Integer.parseInt(rs.readLine());
-                                        if (AllmailInput == 1) {
-                                            //reply
-                                            mail.replyInAllMail(currentMailID, db, rs);
-                                        } else if (AllmailInput == 2) {
-                                            //pass
-                                            mail.passInAllMail(currentMailID, db, rs);
-                                        } else if (AllmailInput == 3) {
-                                            //star -> trigger
-                                            mail.markStarInAllMail(currentMailID, db, rs);
-                                        } else if (AllmailInput == 4) {
-                                            //delete -> trigger
-                                            mail.deleteFromAllMail(currentMailID, db, rs);
-                                        } else if (AllmailInput == 5) {
-                                            //spam -> trigger
-                                            mail.toSpamFromAll(currentMailID, db, rs);
-                                        }
-
+                                mail.printAllMails(db, rs);
+                                mail.printMailBoxMenu(db, rs, mail.getMailInput());
+                                int AllmailInput = Integer.parseInt(rs.readLine());
+                                if (mail.getMailInput() == AlLMAILS && 0 == AllmailInput) {
+                                    //select
+                                    System.out.println("Input Mail ID");
+                                    AllmailInput = Integer.parseInt(rs.readLine());
+                                    mail.getAllMailcontents(AllmailInput, db, rs);
+                                    //get title and get mail contents
+                                    System.out.println("1. Reply");
+                                    System.out.println("2. Pass to others");
+                                    System.out.println("3. Star mark"); //Trigger
+                                    System.out.println("4. Delete a Mail"); //Trigger
+                                    System.out.println("5. Move to Spam"); //Trigger
+                                    System.out.println("6. Go Back");
+                                    System.out.println("------------------------");
+                                    currentMailID = AllmailInput;
+                                    AllmailInput = Integer.parseInt(rs.readLine());
+                                    if (AllmailInput == 1) {
+                                        //reply
+                                        mail.replyInAllMail(currentMailID, db, rs);
+                                    } else if (AllmailInput == 2) {
+                                        //pass
+                                        mail.passInAllMail(currentMailID, db, rs);
+                                    } else if (AllmailInput == 3) {
+                                        //star -> trigger
+                                        mail.markStarInAllMail(currentMailID, db, rs);
+                                    } else if (AllmailInput == 4) {
+                                        //delete -> trigger
+                                        mail.deleteFromAllMail(currentMailID, db, rs);
+                                    } else if (AllmailInput == 5) {
+                                        //spam -> trigger
+                                        mail.toSpamFromAll(currentMailID, db, rs);
                                     }
+
+                                }
 
 
                             } else if (mail.getMailInput() == MAILBOX) {
@@ -173,180 +171,167 @@ public class Main {
                                         mail.deleteFromMail(currentMailID, db, rs);
                                     } else if (5 == mailInput) {
                                         //spam
-                                        mail.toSpamFromMail(currentMailID,db,rs);
+                                        mail.toSpamFromMail(currentMailID, db, rs);
                                     }
                                 }
-                                } else if (mail.getMailInput() == SENTMAILBOX) {
-                                    //code
-                                    mail.printSentMails(db, rs);
-                                    mail.printMailBoxMenu(db, rs, mail.getMailInput());
-                                    int SentmailInput = Integer.parseInt(rs.readLine());
-                                    //select
-                                    if(SentmailInput == 0) {
-                                        System.out.println("Input Mail ID");
-                                        SentmailInput = Integer.parseInt(rs.readLine());
-                                        mail.getSentMailcontents(SentmailInput, db, rs);
-                                        System.out.println("1. Pass to others");
-                                        System.out.println("2. Star mark");
-                                        System.out.println("3. Delete a Mail");
-                                        System.out.println("4. Go Back");
-                                        System.out.println("------------------------");
-                                        currentMailID = SentmailInput;
-                                        SentmailInput = Integer.parseInt(rs.readLine());
-                                        if(SentmailInput == 1){
-                                            //pass
-                                            mail.passInSentMail(currentMailID, db, rs);
-                                        }
-                                        else if(SentmailInput == 2){
-                                            //star
-                                            mail.markStarInSentMail(currentMailID, db, rs);
-                                        }
-                                        else if(SentmailInput == 3){
-                                            //delete
-                                            mail.deleteFromSentMail(currentMailID, db, rs);
-                                        }
+                            } else if (mail.getMailInput() == SENTMAILBOX) {
+                                //code
+                                mail.printSentMails(db, rs);
+                                mail.printMailBoxMenu(db, rs, mail.getMailInput());
+                                int SentmailInput = Integer.parseInt(rs.readLine());
+                                //select
+                                if (SentmailInput == 0) {
+                                    System.out.println("Input Mail ID");
+                                    SentmailInput = Integer.parseInt(rs.readLine());
+                                    mail.getSentMailcontents(SentmailInput, db, rs);
+                                    System.out.println("1. Pass to others");
+                                    System.out.println("2. Star mark");
+                                    System.out.println("3. Delete a Mail");
+                                    System.out.println("4. Go Back");
+                                    System.out.println("------------------------");
+                                    currentMailID = SentmailInput;
+                                    SentmailInput = Integer.parseInt(rs.readLine());
+                                    if (SentmailInput == 1) {
+                                        //pass
+                                        mail.passInSentMail(currentMailID, db, rs);
+                                    } else if (SentmailInput == 2) {
+                                        //star
+                                        mail.markStarInSentMail(currentMailID, db, rs);
+                                    } else if (SentmailInput == 3) {
+                                        //delete
+                                        mail.deleteFromSentMail(currentMailID, db, rs);
                                     }
-
-                                } else if (mail.getMailInput() == TEMPORARYMAILBOX) {
-                                    //code
-                                    mail.printTemporaryMails(db, rs);
-                                    mail.printMailBoxMenu(db, rs, mail.getMailInput());
-                                    int TempMailInput = Integer.parseInt(rs.readLine());
-                                    if(TempMailInput == 0) {
-                                        System.out.println("Input Mail ID");
-                                        TempMailInput = Integer.parseInt(rs.readLine());
-                                        mail.getTempMailcontents(TempMailInput, db, rs);
-                                        System.out.println("1. Modify");
-                                        System.out.println("2. Send");
-                                        System.out.println("3. Delete a Mail");
-                                        System.out.println("4. Go Back");
-                                        System.out.println("------------------------");
-
-                                        currentMailID = TempMailInput;
-                                        TempMailInput = Integer.parseInt(rs.readLine());
-                                        if(TempMailInput == 1){
-                                            //modifiy
-                                            mail.modifyTempMail(currentMailID, db, rs) ;
-                                        }
-                                        else if(TempMailInput == 2){
-                                            //send
-                                            mail.sendTempMail(currentMailID, db, rs);
-                                        }
-                                        else if(TempMailInput == 3){
-                                            //Delete
-                                            mail.deleteFromTempMail(currentMailID, db, rs);
-                                        }
-                                    }
-                                } else if (mail.getMailInput() == TOMEMAILBOX) {
-                                    //code
-                                    mail.printToMeMails(db, rs);
-                                    mail.printMailBoxMenu(db, rs, mail.getMailInput());
-                                    int ToMeMailInput = Integer.parseInt(rs.readLine());
-                                    if(ToMeMailInput == 0) {
-                                        System.out.println("Input Mail ID");
-                                        ToMeMailInput = Integer.parseInt(rs.readLine());
-                                        mail.getToMeMailcontents(ToMeMailInput, db, rs);
-                                        System.out.println("1. Pass to others");
-                                        System.out.println("2. Star mark");
-                                        System.out.println("3. Delete a Mail");
-                                        System.out.println("4. Move to Spam");
-                                        System.out.println("5. Go Back");
-                                        System.out.println("------------------------");
-                                        currentMailID = ToMeMailInput;
-                                        ToMeMailInput = Integer.parseInt(rs.readLine());
-                                        if(ToMeMailInput == 1){
-                                            //pass
-                                            mail.passInToMeMail(currentMailID, db, rs);
-                                        }
-                                        else if(ToMeMailInput == 2){
-                                            //star
-                                            mail.markStarInToMeMail(currentMailID, db, rs);
-                                        }
-                                        else if(ToMeMailInput == 3){
-                                            //Delete
-                                            mail.deleteFromToMeMail(currentMailID, db, rs);
-                                        }
-                                        else if(ToMeMailInput == 4){
-                                            //Spam
-                                            mail.toSpamFromToMeMail(currentMailID,db,rs);
-
-                                        }
-                                    }
-                                } else if (mail.getMailInput() == TRASHCAN) {
-                                    //code
-                                    mail.printTrashCan(db, rs);
-                                    mail.printMailBoxMenu(db, rs, mail.getMailInput());
-                                    int TrashInput = Integer.parseInt(rs.readLine());
-                                    if(TrashInput == 0) {
-                                        System.out.println("Input Mail ID");
-                                        TrashInput = Integer.parseInt(rs.readLine());
-                                        mail.getTrashcontents(TrashInput, db, rs);
-                                        System.out.println("1. Completely Delete a Mail");
-                                        System.out.println("2. Go Back");
-                                        System.out.println("------------------------");
-
-                                        currentMailID = TrashInput;
-                                        TrashInput = Integer.parseInt(rs.readLine());
-                                        if(TrashInput == 1){
-                                            //delete
-                                            mail.deleteFromTrashCan(currentMailID, db, rs);
-                                        }
-
-                                    }
-                                    else if(TrashInput == 1){
-                                        System.out.println("Do you want to Clean up ALL Mail?(Y/N)");
-                                        rs = new BufferedReader(new InputStreamReader(System.in));
-                                        String selection = rs.readLine();
-                                        if(selection.equalsIgnoreCase("Y")){
-                                            //move the mail from temp mail to sent mail
-                                            if(db.cleanUp())
-                                                System.out.println("Work " +
-                                                        ansi().fg(BLUE).a("SUCCESSFULLY").reset());
-                                        }
-                                        else{
-                                            System.out.println("Failed");
-                                        }
-                                    }
-                                } else if (mail.getMailInput() == SPAMMAILBOX) {
-                                    //code
-                                    mail.printSpamMails(db, rs);
-                                    mail.printMailBoxMenu(db, rs, mail.getMailInput());
-                                    int SpamInput = Integer.parseInt(rs.readLine());
-
-                                    if(SpamInput == 0) {
-                                        System.out.println("Input Mail ID");
-                                        SpamInput = Integer.parseInt(rs.readLine());
-                                        mail.getSpamcontents(SpamInput, db, rs);
-                                        System.out.println("1. Delete a Mail");
-                                        System.out.println("2. Go Back");
-                                        System.out.println("------------------------");
-                                        currentMailID = SpamInput;
-                                        SpamInput = Integer.parseInt(rs.readLine());
-
-                                        if(SpamInput == 1){
-                                            //delete
-                                            mail.deleteFromSpam(currentMailID, db, rs);
-                                        }
-                                    }
-                                } else if (mail.getMailInput() == GOTOMAILHOME) {
-                                    continue;
-                                } else if (mail.getMailInput() == GOTOHOME) {
-                                    continue;
                                 }
+
+                            } else if (mail.getMailInput() == TEMPORARYMAILBOX) {
+                                //code
+                                mail.printTemporaryMails(db, rs);
+                                mail.printMailBoxMenu(db, rs, mail.getMailInput());
+                                int TempMailInput = Integer.parseInt(rs.readLine());
+                                if (TempMailInput == 0) {
+                                    System.out.println("Input Mail ID");
+                                    TempMailInput = Integer.parseInt(rs.readLine());
+                                    mail.getTempMailcontents(TempMailInput, db, rs);
+                                    System.out.println("1. Modify");
+                                    System.out.println("2. Send");
+                                    System.out.println("3. Delete a Mail");
+                                    System.out.println("4. Go Back");
+                                    System.out.println("------------------------");
+
+                                    currentMailID = TempMailInput;
+                                    TempMailInput = Integer.parseInt(rs.readLine());
+                                    if (TempMailInput == 1) {
+                                        //modifiy
+                                        mail.modifyTempMail(currentMailID, db, rs);
+                                    } else if (TempMailInput == 2) {
+                                        //send
+                                        mail.sendTempMail(currentMailID, db, rs);
+                                    } else if (TempMailInput == 3) {
+                                        //Delete
+                                        mail.deleteFromTempMail(currentMailID, db, rs);
+                                    }
+                                }
+                            } else if (mail.getMailInput() == TOMEMAILBOX) {
+                                //code
+                                mail.printToMeMails(db, rs);
+                                mail.printMailBoxMenu(db, rs, mail.getMailInput());
+                                int ToMeMailInput = Integer.parseInt(rs.readLine());
+                                if (ToMeMailInput == 0) {
+                                    System.out.println("Input Mail ID");
+                                    ToMeMailInput = Integer.parseInt(rs.readLine());
+                                    mail.getToMeMailcontents(ToMeMailInput, db, rs);
+                                    System.out.println("1. Pass to others");
+                                    System.out.println("2. Star mark");
+                                    System.out.println("3. Delete a Mail");
+                                    System.out.println("4. Move to Spam");
+                                    System.out.println("5. Go Back");
+                                    System.out.println("------------------------");
+                                    currentMailID = ToMeMailInput;
+                                    ToMeMailInput = Integer.parseInt(rs.readLine());
+                                    if (ToMeMailInput == 1) {
+                                        //pass
+                                        mail.passInToMeMail(currentMailID, db, rs);
+                                    } else if (ToMeMailInput == 2) {
+                                        //star
+                                        mail.markStarInToMeMail(currentMailID, db, rs);
+                                    } else if (ToMeMailInput == 3) {
+                                        //Delete
+                                        mail.deleteFromToMeMail(currentMailID, db, rs);
+                                    } else if (ToMeMailInput == 4) {
+                                        //Spam
+                                        mail.toSpamFromToMeMail(currentMailID, db, rs);
+
+                                    }
+                                }
+                            } else if (mail.getMailInput() == TRASHCAN) {
+                                //code
+                                mail.printTrashCan(db, rs);
+                                mail.printMailBoxMenu(db, rs, mail.getMailInput());
+                                int TrashInput = Integer.parseInt(rs.readLine());
+                                if (TrashInput == 0) {
+                                    System.out.println("Input Mail ID");
+                                    TrashInput = Integer.parseInt(rs.readLine());
+                                    mail.getTrashcontents(TrashInput, db, rs);
+                                    System.out.println("1. Completely Delete a Mail");
+                                    System.out.println("2. Go Back");
+                                    System.out.println("------------------------");
+
+                                    currentMailID = TrashInput;
+                                    TrashInput = Integer.parseInt(rs.readLine());
+                                    if (TrashInput == 1) {
+                                        //delete
+                                        mail.deleteFromTrashCan(currentMailID, db, rs);
+                                    }
+
+                                } else if (TrashInput == 1) {
+                                    System.out.println("Do you want to Clean up ALL Mail?(Y/N)");
+                                    rs = new BufferedReader(new InputStreamReader(System.in));
+                                    String selection = rs.readLine();
+                                    if (selection.equalsIgnoreCase("Y")) {
+                                        //move the mail from temp mail to sent mail
+                                        if (db.cleanUp())
+                                            System.out.println("Work " +
+                                                    ansi().fg(BLUE).a("SUCCESSFULLY").reset());
+                                    } else {
+                                        System.out.println("Failed");
+                                    }
+                                }
+                            } else if (mail.getMailInput() == SPAMMAILBOX) {
+                                //code
+                                mail.printSpamMails(db, rs);
+                                mail.printMailBoxMenu(db, rs, mail.getMailInput());
+                                int SpamInput = Integer.parseInt(rs.readLine());
+
+                                if (SpamInput == 0) {
+                                    System.out.println("Input Mail ID");
+                                    SpamInput = Integer.parseInt(rs.readLine());
+                                    mail.getSpamcontents(SpamInput, db, rs);
+                                    System.out.println("1. Delete a Mail");
+                                    System.out.println("2. Go Back");
+                                    System.out.println("------------------------");
+                                    currentMailID = SpamInput;
+                                    SpamInput = Integer.parseInt(rs.readLine());
+
+                                    if (SpamInput == 1) {
+                                        //delete
+                                        mail.deleteFromSpam(currentMailID, db, rs);
+                                    }
+                                }
+                            } else if (mail.getMailInput() == GOTOMAILHOME) {
+                                continue;
+                            } else if (mail.getMailInput() == GOTOHOME) {
+                                continue;
+                            }
                         }
-                    }
-
-                    else if(loginMenu == MUSIC){
+                    } else if (loginMenu == MUSIC) {
                         //do somethings
-                    	Music music = new Music();
-                    	music.seletMenu();
-                    }
-                    else if(loginMenu == SHOPPING){
-                      Shopping shoppingUser = new Shopping();
-                    	shopping.printShoppingMenu();
-                    }
-                    else if(loginMenu == LOGOUT){
-                        userStatus = LOG_OUT ;
+                        Music music = new Music();
+                        music.seletMenu();
+                    } else if (loginMenu == SHOPPING) {
+                        Shopping shoppingUser = new Shopping();
+                        shopping.printShoppingMenu();
+                    } else if (loginMenu == LOGOUT) {
+                        userStatus = LOG_OUT;
                     }
                 } else if (menu == USER_ADD) {
                     user_add(db, rs);
@@ -356,6 +341,7 @@ public class Main {
             }
             db.disconnect();
         }
+    }
 
         public static void printMenu () {
             System.out.println("\tNAVER ");
@@ -465,5 +451,4 @@ public class Main {
 
     }
 
-    }
 

@@ -18,7 +18,7 @@ public class DBA {
         static String password = "jca+please"; // MySQL 서버 비밀번호
 
 
-        static String url = "jdbc:mysql://localhost/test";
+        static String url = "jdbc:mysql://localhost/DB";
 
         public DBA() {
             url += timeZone;
@@ -180,7 +180,7 @@ public class DBA {
 
     public boolean write(int recv, String title, String contents) {
         int id = 0;
-            String check_query = "insert into TemporaryMailBox value(?,?,?,?,?);";
+        String check_query = "insert into TemporaryMailBox value(?,?,?,?,?,?);";
         PreparedStatement ps = null;
         try {
             ps = con.prepareStatement(check_query);
@@ -189,6 +189,7 @@ public class DBA {
             ps.setInt(3, recv);
             ps.setString(4, title);
             ps.setString(5, contents);
+            ps.setInt(6,0);
             ps.executeUpdate();
 
         } catch (SQLException e){

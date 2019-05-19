@@ -123,9 +123,9 @@ public class JisikIn {
         String query = null;
 
         if (order == 0)
-            query = "select user_id, post_id, category, context, likes from question order by post_id asc;";
+            query = "select * from question order by post_id asc;";
         else if (order == 1)
-            query = "select user_id, post_id, category, context, likes from question order by post_id desc;";
+            query = "select * from question order by post_id desc;";
 
         ResultSet rt = null;
 

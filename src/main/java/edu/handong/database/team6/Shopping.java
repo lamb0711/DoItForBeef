@@ -150,7 +150,7 @@ public class Shopping {
 		PreparedStatement stmt = null;
 		ResultSet rset = null;
 		try {
-			String query = "SELECT *FROM product";
+			String query = "SELECT * FROM product";
 			stmt = DBA.con.prepareStatement(query);
 			rset = stmt.executeQuery();
 			
