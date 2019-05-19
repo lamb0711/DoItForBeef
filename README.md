@@ -1,4 +1,10 @@
 # DoItForBee
+
+
+Installation guid is here : [Installation.md](https://github.com/lamb0711/DoItForBeef/blob/master/installation.md)
+
+##
+
 scenario
 USER(4)
 1. log in
